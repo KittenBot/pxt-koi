@@ -1,0 +1,15 @@
+{
+    "name": "koi",
+    "version": "0.1.0",
+    "description": "Extension for KOI AI module",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "main.ts"
+    ],
+    "public": true,
+    "preferredEditor": "tsprj"
+}
