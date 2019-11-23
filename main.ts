@@ -8,6 +8,7 @@ load dependency
 namespace koi {
 
     type EvtAct = () => void;
+    type Evtxy = (x: number, y: number) => void;
     type Evtxywh = (x:number, y:number, w:number, h:number) => void;
     type Evtxyr = (x: number, y: number, r: number) => void;
     type Evtpp = (x1: number, y1: number, x2: number, y2: number) => void;
@@ -23,8 +24,9 @@ namespace koi {
     let lineEvt: Evtpp = null;
     let imgtrackEvt: Evtxywh = null;
     let qrcodeEvt: Evttxt = null;
+    let barcodeEvt: Evttxt = null;
     let apriltagEvt: Evtsxy = null;
-    let facedetEvt: Evtxywh = null;
+    let facedetEvt: Evtxy = null;
 
     const PortSerial = [
         [SerialPin.P8, SerialPin.P0],
@@ -59,6 +61,42 @@ namespace koi {
                 if (classiferEvt){
                     classiferEvt();
                 }
+            } else if (cmd == 10){ // circle position
+                if (circleEvt){
+                    circleEvt(parseInt(b[1]), parseInt(b[2]), parseInt(b[3])); // x y r
+                }
+            } else if (cmd == 11){ // rect return
+                if (rectEvt) {
+                    rectEvt(parseInt(b[1]), parseInt(b[2]), parseInt(b[3]), parseInt(b[4])); // x y w h
+                }
+            } else if (cmd == 12){ // line track
+                if (lineEvt) {
+                    lineEvt(parseInt(b[1]), parseInt(b[2]), parseInt(b[3]), parseInt(b[4]))
+                }
+            } else if (cmd == 15){ // color blob
+                if (colorblobEvt) {
+                    colorblobEvt(parseInt(b[1]), parseInt(b[2]), parseInt(b[3]), parseInt(b[4]))
+                }
+            } else if (cmd == 17){ // image track return
+                if (imgtrackEvt){
+                    imgtrackEvt(parseInt(b[1]), parseInt(b[2]), parseInt(b[3]), parseInt(b[4]))
+                }
+            } else if (cmd == 20){ // qrcode return
+                if (qrcodeEvt){
+                    qrcodeEvt(b[1])
+                }
+            } else if (cmd == 22){ // barcode return
+                if (barcodeEvt){
+                    barcodeEvt(b[1])
+                }
+            } else if (cmd == 23){ // april tag return 
+                if (apriltagEvt) {
+                    apriltagEvt(b[1], parseInt(b[2]), parseInt(b[3]))
+                }
+            } else if (cmd == 31){ // face position
+                if (facedetEvt){
+                    facedetEvt(parseInt(b[1]), parseInt(b[2]))
+                }
             }
         }
     })
@@ -81,7 +119,11 @@ namespace koi {
         serial.setRxBufferSize(64)
         serial.readString()
         serial.writeString('\n\n')
-        basic.pause(1000)
+        // take control of the ext serial port from KOI
+        basic.pause(300)
+        serial.writeLine("K0")
+        basic.pause(300)
+        serial.writeLine("K0")
     }
 
     //% blockId=koi_init_pw block="KOI init powerbrick|Port %port"
@@ -266,10 +308,23 @@ namespace koi {
         qrcodeEvt = handler;
     }
 
+    //% blockId=koi_barcode block="KOI BAR code"
+    //% weight=83
+    export function koi_barcode() {
+        let str = `K22`;
+        serial.writeLine(str)
+    }
+
+    //% blockId=koi_onbarcode block="on Barcode code"
+    //% weight=83 draggableParameters=reporter blockGap=48
+    export function koi_onbarcode(handler: (code: string) => void) {
+        barcodeEvt = handler;
+    }
+
     //% blockId=koi_apriltag block="KOI April Tag"
     //% weight=82
     export function koi_apriltag() {
-        let str = `K22`;
+        let str = `K23`;
         serial.writeLine(str)
     }
 
@@ -295,7 +350,7 @@ namespace koi {
 
     //% blockId=koi_onfindface block="on Find Face"
     //% weight=81 draggableParameters=reporter blockGap=48
-    export function koi_onfindface(handler: (x: number, y: number, w: number, h: number) => void) {
+    export function koi_onfindface(handler: (x: number, y: number) => void) {
         facedetEvt = handler;
     }
 
