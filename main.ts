@@ -8,6 +8,7 @@ load dependency
 namespace koi {
 
     type EvtAct = () => void;
+    type EvtNum = (num: number) => void;
     type Evtxy = (x: number, y: number) => void;
     type Evtxywh = (x:number, y:number, w:number, h:number) => void;
     type Evtxyr = (x: number, y: number, r: number) => void;
@@ -15,8 +16,7 @@ namespace koi {
     type Evttxt = (txt: string) => void;
     type Evtsxy = (txt: string, x: number, y: number) => void;
 
-    let classifiedIndex: number = null;
-    let classiferEvt: EvtAct = null;
+    let classiferEvt: EvtNum = null;
     
     let circleEvt: Evtxyr = null;
     let rectEvt: Evtxywh = null;
@@ -51,50 +51,49 @@ namespace koi {
 
     serial.onDataReceived('\n', function () {
         let a = serial.readString()
-        if (a.charAt(0) == 'K'){
+        if (a.charAt(0) == 'K') {
             a = trim(a)
             let b = a.slice(1, a.length).split(" ")
             let cmd = parseInt(b[0])
 
-            if (cmd == 42){
-                classifiedIndex = parseInt(b[1])
-                if (classiferEvt){
-                    classiferEvt();
+            if (cmd == 42) {
+                if (classiferEvt) {
+                    classiferEvt(parseInt(b[1]));
                 }
-            } else if (cmd == 10){ // circle position
-                if (circleEvt){
+            } else if (cmd == 10) { // circle position
+                if (circleEvt) {
                     circleEvt(parseInt(b[1]), parseInt(b[2]), parseInt(b[3])); // x y r
                 }
-            } else if (cmd == 11){ // rect return
+            } else if (cmd == 11) { // rect return
                 if (rectEvt) {
                     rectEvt(parseInt(b[1]), parseInt(b[2]), parseInt(b[3]), parseInt(b[4])); // x y w h
                 }
-            } else if (cmd == 12){ // line track
+            } else if (cmd == 12) { // line track
                 if (lineEvt) {
                     lineEvt(parseInt(b[1]), parseInt(b[2]), parseInt(b[3]), parseInt(b[4]))
                 }
-            } else if (cmd == 15){ // color blob
+            } else if (cmd == 15) { // color blob
                 if (colorblobEvt) {
                     colorblobEvt(parseInt(b[1]), parseInt(b[2]), parseInt(b[3]), parseInt(b[4]))
                 }
-            } else if (cmd == 17){ // image track return
-                if (imgtrackEvt){
+            } else if (cmd == 17) { // image track return
+                if (imgtrackEvt) {
                     imgtrackEvt(parseInt(b[1]), parseInt(b[2]), parseInt(b[3]), parseInt(b[4]))
                 }
-            } else if (cmd == 20){ // qrcode return
-                if (qrcodeEvt){
+            } else if (cmd == 20) { // qrcode return
+                if (qrcodeEvt) {
                     qrcodeEvt(b[1])
                 }
-            } else if (cmd == 22){ // barcode return
-                if (barcodeEvt){
+            } else if (cmd == 22) { // barcode return
+                if (barcodeEvt) {
                     barcodeEvt(b[1])
                 }
-            } else if (cmd == 23){ // april tag return 
+            } else if (cmd == 23) { // april tag return 
                 if (apriltagEvt) {
                     apriltagEvt(b[1], parseInt(b[2]), parseInt(b[3]))
                 }
-            } else if (cmd == 31){ // face position
-                if (facedetEvt){
+            } else if (cmd == 31) { // face position
+                if (facedetEvt) {
                     facedetEvt(parseInt(b[1]), parseInt(b[2]))
                 }
             }
@@ -148,29 +147,16 @@ namespace koi {
     }
 
     //% blockId=koi_run block="KOI Run Clissifer"
-    //% weight=90
+    //% weight=90 
     export function koi_run(): void {
-        let str = `K42 1`;
-        serial.writeLine(str)
-    }
-
-    //% blockId=koi_stop block="KOI Stop Clissifer"
-    //% weight=90
-    export function koi_stop(): void {
-        let str = `K42 0`;
+        let str = `K42`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_classified block="on Identified"
-    //% weight=90
-    export function koi_classified(handler: () => void) {
-        classiferEvt = handler;
-    }
-
-    //% blockId=koi_get_classified block="Get Class"
     //% weight=90 blockGap=48
-    export function koi_get_classified():number {
-        return classifiedIndex;
+    export function koi_classified(handler: (classId: number) => void) {
+        classiferEvt = handler;
     }
 
     /**
@@ -216,23 +202,37 @@ namespace koi {
         serial.writeLine(str)
     }
 
-    //% blockId=koi_track_circle block="KOI track circle"
+    //% blockId=koi_lcd_direction block="KOI LCD Dir%dir"
+    //% dir.min=0 dir.max=3
+    //% weight=89 blockGap=48
+    export function koi_lcd_direction(dir: number): void {
+        let str = `K6 ${dir}`;
+        serial.writeLine(str)
+    }
+
+    /**
+     * @param th threshold; eg: 4000
+    */
+    //% blockId=koi_track_circle block="KOI track circle threshold%th"
     //% weight=88
-    export function koi_track_circle(): void {
-        let str = `K10`;
+    export function koi_track_circle(th: number): void {
+        let str = `K10 ${th}`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_oncircletrack block="on Find Circle"
     //% weight=88 draggableParameters=reporter blockGap=48
-    export function koi_oncircletrack(handler: (x:number ,y:number, r:number) => void) {
+    export function koi_oncircletrack(handler: (x: number, y: number, r: number) => void) {
         circleEvt = handler;
     }
 
+    /**
+     * @param th threshold; eg: 8000
+    */
     //% blockId=koi_track_rect block="KOI track rectangle"
-    //% weight=87
-    export function koi_track_rect(): void {
-        let str = `K11`;
+    //% weight=87 blockGap=48
+    export function koi_track_rect(th: number): void {
+        let str = `K11 ${th}`;
         serial.writeLine(str)
     }
 
@@ -251,7 +251,7 @@ namespace koi {
 
     //% blockId=koi_track_line block="KOI track line"
     //% weight=86
-    export function koi_track_line() {
+    export function koi_track_line(): void {
         let str = `K12`;
         serial.writeLine(str)
     }
@@ -264,7 +264,7 @@ namespace koi {
 
     //% blockId=koi_track_colorblob block="KOI track color blob"
     //% weight=85
-    export function koi_track_colorblob() {
+    export function koi_track_colorblob(): void {
         let str = `K15`;
         serial.writeLine(str)
     }
@@ -275,25 +275,6 @@ namespace koi {
         colorblobEvt = handler;
     }
 
-    //% blockId=koi_track_img block="KOI track image"
-    //% weight=84
-    export function koi_track_img() {
-        let str = `K17`;
-        serial.writeLine(str)
-    }
-
-    //% blockId=koi_track_img_learn block="KOI track image learn"
-    //% weight=84
-    export function koi_track_img_learn() {
-        let str = `K18`;
-        serial.writeLine(str)
-    }
-
-    //% blockId=koi_onimgtrack block="on Image Track"
-    //% weight=84 draggableParameters=reporter blockGap=48
-    export function koi_onimgtrack(handler: (x: number, y: number, w: number, h: number) => void) {
-        imgtrackEvt = handler;
-    }
 
     //% blockId=koi_qrcode block="KOI QR code"
     //% weight=83
