@@ -55,7 +55,6 @@ namespace koi {
             a = trim(a)
             let b = a.slice(1, a.length).split(" ")
             let cmd = parseInt(b[0])
-
             if (cmd == 42) {
                 if (classiferEvt) {
                     classiferEvt(parseInt(b[1]));
@@ -153,8 +152,22 @@ namespace koi {
         serial.writeLine(str)
     }
 
+    //% blockId=koi_cls_save block="KOI Save Clissifer %path"
+    //% weight=90 
+    export function koi_cls_save(path: string): void {
+        let str = `K43 ${path}`;
+        serial.writeLine(str)
+    }
+    
+    //% blockId=koi_cls_save block="KOI Load Clissifer %path"
+    //% weight=90 
+    export function koi_cls_load(path: string): void {
+        let str = `K44 ${path}`;
+        serial.writeLine(str)
+    }
+
     //% blockId=koi_classified block="on Identified"
-    //% weight=90 blockGap=48
+    //% weight=90 draggableParameters=reporter blockGap=48
     export function koi_classified(handler: (classId: number) => void) {
         classiferEvt = handler;
     }
