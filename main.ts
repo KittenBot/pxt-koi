@@ -50,7 +50,7 @@ namespace koi {
     }
 
     serial.onDataReceived('\n', function () {
-        let a = serial.readString()
+        let a = serial.readUntil("\n")
         if (a.charAt(0) == 'K') {
             a = trim(a)
             let b = a.slice(1, a.length).split(" ")
@@ -159,7 +159,7 @@ namespace koi {
         serial.writeLine(str)
     }
     
-    //% blockId=koi_cls_save block="KOI Load Clissifer %path"
+    //% blockId=koi_cls_load block="KOI Load Clissifer %path"
     //% weight=90 
     export function koi_cls_load(path: string): void {
         let str = `K44 ${path}`;
@@ -242,7 +242,7 @@ namespace koi {
     /**
      * @param th threshold; eg: 8000
     */
-    //% blockId=koi_track_rect block="KOI track rectangle"
+    //% blockId=koi_track_rect block="KOI track rectangle %th"
     //% weight=87 blockGap=48
     export function koi_track_rect(th: number): void {
         let str = `K11 ${th}`;
@@ -348,6 +348,5 @@ namespace koi {
         facedetEvt = handler;
     }
 
-    
 
 }
