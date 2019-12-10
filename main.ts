@@ -335,10 +335,10 @@ namespace koi {
         serial.writeLine(str)
     }
 
-    //% blockId=koi_facedetect block="KOI face detect %onoff"
+    //% blockId=koi_facedetect block="KOI face detect"
     //% weight=81
-    export function koi_facedetect(onoff: boolean) {
-        let str = `K31 ${onoff ? 1 : 0}`;
+    export function koi_facedetect() {
+        let str = `K31`;
         serial.writeLine(str)
     }
 
