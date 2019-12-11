@@ -10,14 +10,14 @@ namespace koi {
     type EvtAct = () => void;
     type EvtNum = (num: number) => void;
     type Evtxy = (x: number, y: number) => void;
-    type Evtxywh = (x:number, y:number, w:number, h:number) => void;
+    type Evtxywh = (x: number, y: number, w: number, h: number) => void;
     type Evtxyr = (x: number, y: number, r: number) => void;
     type Evtpp = (x1: number, y1: number, x2: number, y2: number) => void;
     type Evttxt = (txt: string) => void;
     type Evtsxy = (txt: string, x: number, y: number) => void;
 
     let classiferEvt: EvtNum = null;
-    
+
     let circleEvt: Evtxyr = null;
     let rectEvt: Evtxywh = null;
     let colorblobEvt: Evtxywh = null;
@@ -42,9 +42,14 @@ namespace koi {
         PORT4 = 3
     }
 
-    function trim(n: string):string {
-        while (n.charCodeAt(n.length-1)<0x1f) {
-            n = n.slice(0, n.length-1)
+    export enum LcdDirection {
+        Front = 0,
+        Back = 3
+    }
+
+    function trim(n: string): string {
+        while (n.charCodeAt(n.length - 1) < 0x1f) {
+            n = n.slice(0, n.length - 1)
         }
         return n;
     }
@@ -122,6 +127,7 @@ namespace koi {
         serial.writeLine("K0")
         basic.pause(300)
         serial.writeLine("K0")
+        basic.pause(100)
     }
 
     //% blockId=koi_init_pw block="KOI init powerbrick|Port %port"
@@ -158,7 +164,7 @@ namespace koi {
         let str = `K43 ${path}`;
         serial.writeLine(str)
     }
-    
+
     //% blockId=koi_cls_load block="KOI Load Clissifer %path"
     //% weight=90 
     export function koi_cls_load(path: string): void {
@@ -195,7 +201,7 @@ namespace koi {
     //% blockId=koi_led block="KOI LED %onoff"
     //% weight=89 blockGap=48
     export function koi_led(onoff: boolean): void {
-        let str = `K3 ${onoff?1:0}`;
+        let str = `K3 ${onoff ? 1 : 0}`;
         serial.writeLine(str)
     }
 
@@ -216,11 +222,11 @@ namespace koi {
     }
 
     //% blockId=koi_lcd_direction block="KOI LCD Dir%dir"
-    //% dir.min=0 dir.max=3
     //% weight=89 blockGap=48
-    export function koi_lcd_direction(dir: number): void {
+    export function koi_lcd_direction(dir: LcdDirection): void {
         let str = `K6 ${dir}`;
         serial.writeLine(str)
+        basic.pause(100)
     }
 
     /**
