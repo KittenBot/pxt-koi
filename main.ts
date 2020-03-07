@@ -5,6 +5,7 @@ load dependency
 */
 
 //% color="#5c7cfa" weight=10 icon="\u03f0"
+//% groups='["Basic", "Graphic", Classifer", "Tag/Code", "Audio", "Face", "Wifi"]'
 namespace koi {
 
     type EvtAct = () => void;
@@ -115,7 +116,7 @@ namespace koi {
      * @param rx Rx pin; eg: SerialPin.P2
     */
     //% blockId=koi_init block="KOI init|Tx pin %tx|Rx pin %rx"
-    //% weight=100
+    //% group="Basic" weight=100
     export function koi_init(tx: SerialPin, rx: SerialPin): void {
         serial.redirect(
             tx,
@@ -136,13 +137,13 @@ namespace koi {
     }
 
     //% blockId=koi_init_pw block="KOI init powerbrick|Port %port"
-    //% weight=100
+    //% group="Basic" weight=100
     export function koi_init_pw(port: SerialPorts): void {
         koi_init(PortSerial[port][1], PortSerial[port][0]);
     }
 
     //% blockId=koi_reset_cls block="KOI Reset Classifer"
-    //% weight=90
+    //% group="Classifer" weight=90
     export function koi_reset_cls(): void {
         let str = `K40`;
         serial.writeLine(str)
@@ -153,14 +154,14 @@ namespace koi {
     */
     //% blockId=koi_addtag block="KOI Add Tag %tag"
     //% tag.min=1 tag.max=20
-    //% weight=90
+    //% group="Classifer" weight=90
     export function koi_addtag(tag: number): void {
         let str = `K41 ${tag}`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_run block="KOI Run Clissifer"
-    //% weight=90 
+    //% group="Classifer" weight=90
     export function koi_run(): void {
         let str = `K42`;
         serial.writeLine(str)
@@ -170,7 +171,7 @@ namespace koi {
      * @param path bin to save; eg: class.bin
     */
     //% blockId=koi_cls_save block="KOI Save Clissifer %path"
-    //% weight=90 
+    //% group="Classifer" weight=90
     export function koi_cls_save(path: string): void {
         let str = `K43 ${path}`;
         serial.writeLine(str)
@@ -180,14 +181,14 @@ namespace koi {
      * @param path bin to save; eg: class.bin
     */
     //% blockId=koi_cls_load block="KOI Load Clissifer %path"
-    //% weight=90 
+    //% group="Classifer" weight=90
     export function koi_cls_load(path: string): void {
         let str = `K44 ${path}`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_classified block="on Identified"
-    //% weight=90 draggableParameters=reporter blockGap=48
+    //% group="Classifer" weight=90 draggableParameters=reporter blockGap=48
     export function koi_classified(handler: (classId: number) => void) {
         classiferEvt = handler;
     }
@@ -196,7 +197,7 @@ namespace koi {
      * @param name savepath; eg: abc.png
     */
     //% blockId=koi_screenshot block="KOI Screenshot %name"
-    //% weight=89
+    //% group="Basic" weight=89
     export function koi_screenshot(name: string): void {
         let str = `K2 ${name}`;
         serial.writeLine(str)
@@ -206,7 +207,7 @@ namespace koi {
      * @param name png to display; eg: banana.png
     */
     //% blockId=koi_display block="KOI Display %name"
-    //% weight=89 blockGap=48
+    //% group="Basic" weight=89 blockGap=48
     export function koi_display(name: string): void {
         let str = `K1 ${name}`;
         serial.writeLine(str)
@@ -214,7 +215,7 @@ namespace koi {
 
     //% blockId=koi_onbtn block="on Button"
     //% weight=89
-    //% draggableParameters=reporter
+    //% group="Basic" draggableParameters=reporter
     export function koi_onbtn(handler: (btn1: number, btn2: number) => void): void {
         btnEvt = handler;
     }
@@ -225,14 +226,14 @@ namespace koi {
     //% blockId=koi_print block="KOI print X %x Y %y %txt||delay %delay ms"
     //% x.min=0 x.max=240
     //% y.min=0 y.max=240
-    //% weight=89
+    //% group="Basic" weight=89
     export function koi_print(x: number, y: number, txt: string, delay: number = 1000): void {
         let str = `K4 ${x} ${y} ${delay} ${txt}`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_lcd_direction block="KOI LCD Dir%dir"
-    //% weight=89 blockGap=48
+    //% group="Basic" weight=89 blockGap=48
     export function koi_lcd_direction(dir: LcdDirection): void {
         let str = `K6 ${dir}`;
         serial.writeLine(str)
@@ -243,14 +244,14 @@ namespace koi {
      * @param th threshold; eg: 4000
     */
     //% blockId=koi_track_circle block="KOI track circle threshold%th"
-    //% weight=88
+    //% group="Graphic" weight=88
     export function koi_track_circle(th: number): void {
         let str = `K10 ${th}`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_oncircletrack block="on Find Circle"
-    //% weight=88 draggableParameters=reporter blockGap=48
+    //% group="Graphic" weight=88 draggableParameters=reporter blockGap=48
     export function koi_oncircletrack(handler: (x: number, y: number, r: number) => void) {
         circleEvt = handler;
     }
@@ -259,107 +260,107 @@ namespace koi {
      * @param th threshold; eg: 8000
     */
     //% blockId=koi_track_rect block="KOI track rectangle %th"
-    //% weight=87 blockGap=48
+    //% group="Graphic" weight=87 blockGap=48
     export function koi_track_rect(th: number): void {
         let str = `K11 ${th}`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_onrecttrack block="on Find Rectangle"
-    //% weight=87 draggableParameters=reporter blockGap=48
+    //% group="Graphic" weight=87 draggableParameters=reporter blockGap=48
     export function koi_onrecttrack(handler: (x: number, y: number, w: number, h: number) => void) {
         rectEvt = handler;
     }
 
     //% blockId=koi_colorcali block="KOI color calibration"
-    //% weight=86
+    //% group="Graphic" weight=86
     export function koi_colorcali() {
         let str = `K16`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_track_line block="KOI track line"
-    //% weight=86
+    //% group="Graphic" weight=86
     export function koi_track_line(): void {
         let str = `K12`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_onlinetrack block="on Line Update"
-    //% weight=85 draggableParameters=reporter blockGap=48
+    //% group="Graphic" weight=85 draggableParameters=reporter blockGap=48
     export function koi_onlinetrack(handler: (x1: number, y1: number, x2: number, y2: number) => void) {
         lineEvt = handler;
     }
 
     //% blockId=koi_track_colorblob block="KOI track color blob"
-    //% weight=85
+    //% group="Graphic" weight=85
     export function koi_track_colorblob(): void {
         let str = `K15`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_oncolorblob block="on Color blob"
-    //% weight=85 draggableParameters=reporter blockGap=48
+    //% group="Graphic" weight=85 draggableParameters=reporter blockGap=48
     export function koi_oncolorblob(handler: (x: number, y: number, w: number, h: number) => void) {
         colorblobEvt = handler;
     }
 
 
     //% blockId=koi_qrcode block="KOI QR code"
-    //% weight=83
+    //% group="Tag/Code" weight=83
     export function koi_qrcode() {
         let str = `K20`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_onqrcode block="on QR code"
-    //% weight=83 draggableParameters=reporter blockGap=48
+    //% group="Tag/Code" weight=83 draggableParameters=reporter blockGap=48
     export function koi_onqrcode(handler: (link: string) => void) {
         qrcodeEvt = handler;
     }
 
     //% blockId=koi_barcode block="KOI BAR code"
-    //% weight=83
+    //% group="Tag/Code" weight=83
     export function koi_barcode() {
         let str = `K22`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_onbarcode block="on Barcode code"
-    //% weight=83 draggableParameters=reporter blockGap=48
+    //% group="Tag/Code" weight=83 draggableParameters=reporter blockGap=48
     export function koi_onbarcode(handler: (code: string) => void) {
         barcodeEvt = handler;
     }
 
     //% blockId=koi_apriltag block="KOI April Tag"
-    //% weight=82
+    //% group="Tag/Code" weight=82
     export function koi_apriltag() {
         let str = `K23`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_onapriltag block="on AprilTag"
-    //% weight=82 draggableParameters=reporter blockGap=48
+    //% group="Tag/Code" weight=82 draggableParameters=reporter blockGap=48
     export function koi_onapriltag(handler: (id: string, x: number, y: number) => void) {
         apriltagEvt = handler;
     }
 
     //% blockId=koi_loadyoloface block="KOI Load Face yolo"
-    //% weight=81
+    //% group="Face" weight=81
     export function koi_loadyoloface() {
         let str = `K30`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_facedetect block="KOI face detect"
-    //% weight=81
+    //% group="Face" weight=81
     export function koi_facedetect() {
         let str = `K31`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_onfindface block="on Find Face"
-    //% weight=81 draggableParameters=reporter blockGap=48
+    //% group="Face" weight=81 draggableParameters=reporter blockGap=48
     export function koi_onfindface(handler: (x: number, y: number) => void) {
         facedetEvt = handler;
     }
