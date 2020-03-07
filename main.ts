@@ -18,6 +18,7 @@ namespace koi {
 
     let classiferEvt: EvtNum = null;
 
+    let btnEvt: Evtxy = null;
     let circleEvt: Evtxyr = null;
     let rectEvt: Evtxywh = null;
     let colorblobEvt: Evtxywh = null;
@@ -63,6 +64,10 @@ namespace koi {
             if (cmd == 42) {
                 if (classiferEvt) {
                     classiferEvt(parseInt(b[1]));
+                }
+            } else if (cmd == 3){
+                if (btnEvt) {
+                    btnEvt(parseInt(b[1]), parseInt(b[2])); // btna btnb
                 }
             } else if (cmd == 10) { // circle position
                 if (circleEvt) {
@@ -143,6 +148,9 @@ namespace koi {
         serial.writeLine(str)
     }
 
+    /**
+     * @param tag tag index; eg: 1
+    */
     //% blockId=koi_addtag block="KOI Add Tag %tag"
     //% tag.min=1 tag.max=20
     //% weight=90
@@ -158,6 +166,9 @@ namespace koi {
         serial.writeLine(str)
     }
 
+    /**
+     * @param path bin to save; eg: class.bin
+    */
     //% blockId=koi_cls_save block="KOI Save Clissifer %path"
     //% weight=90 
     export function koi_cls_save(path: string): void {
@@ -165,6 +176,9 @@ namespace koi {
         serial.writeLine(str)
     }
 
+    /**
+     * @param path bin to save; eg: class.bin
+    */
     //% blockId=koi_cls_load block="KOI Load Clissifer %path"
     //% weight=90 
     export function koi_cls_load(path: string): void {
@@ -184,7 +198,7 @@ namespace koi {
     //% blockId=koi_screenshot block="KOI Screenshot %name"
     //% weight=89
     export function koi_screenshot(name: string): void {
-        let str = `K1 ${name}`;
+        let str = `K2 ${name}`;
         serial.writeLine(str)
     }
 
@@ -194,30 +208,26 @@ namespace koi {
     //% blockId=koi_display block="KOI Display %name"
     //% weight=89 blockGap=48
     export function koi_display(name: string): void {
-        let str = `K2 ${name}`;
+        let str = `K1 ${name}`;
         serial.writeLine(str)
     }
 
-    //% blockId=koi_led block="KOI LED %onoff"
-    //% weight=89 blockGap=48
-    export function koi_led(onoff: boolean): void {
-        let str = `K3 ${onoff ? 1 : 0}`;
-        serial.writeLine(str)
-    }
-
-    //% blockId=koi_print block="KOI print %txt"
+    //% blockId=koi_onbtn block="on Button"
     //% weight=89
-    export function koi_print(txt: string): void {
-        let str = `K4 ${txt}`;
-        serial.writeLine(str)
+    //% draggableParameters=reporter
+    export function koi_onbtn(handler: (btn1: number, btn2: number) => void): void {
+        btnEvt = handler;
     }
 
-    //% blockId=koi_printpos block="KOI print pos x:%x y:%y"
+    /**
+     * @param txt string to display; eg: hello world
+    */
+    //% blockId=koi_print block="KOI print X %x Y %y %txt||delay %delay ms"
     //% x.min=0 x.max=240
     //% y.min=0 y.max=240
-    //% weight=89 blockGap=48
-    export function koi_printpos(x: number, y: number): void {
-        let str = `K5 ${x} ${y}`;
+    //% weight=89
+    export function koi_print(x: number, y: number, txt: string, delay: number = 1000): void {
+        let str = `K4 ${x} ${y} ${delay} ${txt}`;
         serial.writeLine(str)
     }
 
