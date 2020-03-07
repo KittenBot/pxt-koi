@@ -16,6 +16,7 @@ namespace koi {
     type Evtpp = (x1: number, y1: number, x2: number, y2: number) => void;
     type Evttxt = (txt: string) => void;
     type Evtsxy = (txt: string, x: number, y: number) => void;
+    type Evtss = (t1: string, t2: string) => void;
 
     let classiferEvt: EvtNum = null;
 
@@ -29,6 +30,7 @@ namespace koi {
     let barcodeEvt: Evttxt = null;
     let apriltagEvt: Evtsxy = null;
     let facedetEvt: Evtxy = null;
+    let mqttDataEvt: Evtss = null;
 
     const PortSerial = [
         [SerialPin.P8, SerialPin.P0],
@@ -105,6 +107,10 @@ namespace koi {
             } else if (cmd == 31) { // face position
                 if (facedetEvt) {
                     facedetEvt(parseInt(b[1]), parseInt(b[2]))
+                }
+            } else if (cmd == 55) {
+                if (mqttDataEvt) {
+                    mqttDataEvt(b[1], b[2])
                 }
             }
         }
@@ -365,5 +371,68 @@ namespace koi {
         facedetEvt = handler;
     }
 
+    /**
+     * @param ssid SSID; eg: ssid
+     * @param pass PASSWORD; eg: password
+    */
+    //% blockId=koi_join_ap block="Join Ap %ssid %pass"
+    //% group="Wifi" weight=81
+    export function koi_join_ap(ssid: string, pass: string) {
+        serial.writeLine(`K50 ${ssid} ${pass}`)
+    }
+
+    //% blockId=koi_showip block="Wifi Show IP"
+    //% group="Wifi" weight=80
+    export function koi_showip() {
+        serial.writeLine(`K54`)
+    }
+
+    /**
+     * @param host Mqtt host; eg: iot.kittenbot.cn
+     * @param cid Client ID; eg: clientid
+     * @param port Host Port; eg: 1883
+     * @param user Username; eg: user
+     * @param pass Password; eg: pass
+    */
+    //% blockId=koi_mqtt_host block="Mqtt Host %host %cid||Port%port User%user Pass%pass"
+    //% group="Wifi" weight=70
+    export function koi_mqtt_host(host: string, cid: string, port: number=1883, user:string, pass:string) {
+        if (user && pass){
+            serial.writeLine(`K51 ${host} ${cid} ${port} ${user} ${pass}`)
+        } else {
+            serial.writeLine(`K51 ${host} ${cid} ${port}`)
+        }
+    }
+
+    /**
+     * @param topic Topic to subscribe; eg: /topic
+    */
+    //% blockId=koi_mqtt_sub block="Mqtt Subscribe %topic"
+    //% group="Wifi" weight=61
+    export function koi_mqtt_sub(topic: string) {
+        serial.writeLine(`K52 ${topic}`)
+    }
+
+    /**
+     * @param topic Topic to publish; eg: /topic
+     * @param data Data to publish; eg: hello
+    */
+    //% blockId=koi_mqtt_pub block="Mqtt Publish %topic %data"
+    //% group="Wifi" weight=60
+    export function koi_mqtt_pub(topic: string, data: string) {
+        serial.writeLine(`K53 ${topic} ${data}`)
+    }
+
+    //% blockId=koi_mqtt_read block="Mqtt Read||%topic"
+    //% group="Wifi" weight=60
+    export function koi_mqtt_read(topic: string) {
+        serial.writeLine(`K55 ${topic}`)
+    }
+
+    //% blockId=koi_mqtt_onread block="on Mqtt Data"
+    //% group="Wifi" weight=60
+    export function koi_mqtt_onread(handler: (topic: string, data: string) => void) {
+        mqttDataEvt = handler;
+    }
 
 }
