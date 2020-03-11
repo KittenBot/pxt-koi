@@ -48,7 +48,8 @@ namespace koi {
 
     export enum LcdDirection {
         Front = 0,
-        Back = 3
+        Back = 1,
+        Land = 2
     }
 
     function trim(n: string): string {
@@ -146,6 +147,12 @@ namespace koi {
     //% group="Basic" weight=100
     export function koi_init_pw(port: SerialPorts): void {
         koi_init(PortSerial[port][1], PortSerial[port][0]);
+    }
+
+    //% blockId=koi_reset block="KOI Reset"
+    //% group="Basic" weight=60
+    export function koi_reset(port: SerialPorts): void {
+        serial.writeLine("K998");
     }
 
     //% blockId=koi_reset_cls block="KOI Reset Classifer"
@@ -396,7 +403,7 @@ namespace koi {
     */
     //% blockId=koi_mqtt_host block="Mqtt Host %host %cid||Port%port User%user Pass%pass"
     //% group="Wifi" weight=70
-    export function koi_mqtt_host(host: string, cid: string, port: number=1883, user:string, pass:string) {
+    export function koi_mqtt_host(host: string, cid: string, port: number=1883, user:string=null, pass:string=null) {
         if (user && pass){
             serial.writeLine(`K51 ${host} ${cid} ${port} ${user} ${pass}`)
         } else {
