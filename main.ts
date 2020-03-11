@@ -432,7 +432,7 @@ namespace koi {
 
     //% blockId=koi_mqtt_read block="Mqtt Read||%topic"
     //% group="Wifi" weight=60
-    export function koi_mqtt_read(topic: string) {
+    export function koi_mqtt_read(topic: string="") {
         serial.writeLine(`K55 ${topic}`)
     }
 
