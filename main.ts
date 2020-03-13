@@ -432,7 +432,8 @@ namespace koi {
 
     //% blockId=koi_mqtt_read block="Mqtt Read||%topic"
     //% group="Wifi" weight=60
-    export function koi_mqtt_read(topic: string="") {
+    export function koi_mqtt_read(topic: string=null) {
+        topic = topic || '';
         serial.writeLine(`K55 ${topic}`)
     }
 
@@ -440,6 +441,24 @@ namespace koi {
     //% group="Wifi" weight=60
     export function koi_mqtt_onread(handler: (topic: string, data: string) => void) {
         mqttDataEvt = handler;
+    }
+
+    /**
+     * @param file Wav File to play; eg: bing.wav
+    */
+    //% blockId=koi_audio_play block="WAV Play %file"
+    //% group="Audio" weight=90
+    export function koi_audio_play(file: string) {
+        serial.writeLine(`K62 ${file}`)
+    }
+
+    /**
+     * @param file Wav File to record; eg: say.wav
+    */
+    //% blockId=koi_audio_rec block="WAV Rec %file"
+    //% group="Audio" weight=90
+    export function koi_audio_rec(file: string) {
+        serial.writeLine(`K61 ${file}`)
     }
 
 }
