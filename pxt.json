@@ -1,6 +1,6 @@
 {
     "name": "koi",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "description": "Extension for KOI AI module",
     "license": "MIT",
     "dependencies": {
@@ -9,7 +9,8 @@
     "files": [
         "README.md",
         "main.ts",
-        "_locales/zh/koi-strings.json"
+        "_locales/zh-cn/koi-strings.json",
+        "_locales/zh-tw/koi-strings.json"
     ],
     "public": true,
     "preferredEditor": "tsprj"

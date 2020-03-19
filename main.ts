@@ -5,7 +5,7 @@ load dependency
 */
 
 //% color="#5c7cfa" weight=10 icon="\u03f0"
-//% groups='["Basic", "Graphic", Classifer", "Tag/Code", "Audio", "Face", "Wifi"]'
+//% groups='["Basic", "Graphic", Classifier", "Tag/Code", "Audio", "Face", "Wifi"]'
 namespace koi {
 
     type EvtAct = () => void;
@@ -18,7 +18,7 @@ namespace koi {
     type Evtsxy = (txt: string, x: number, y: number) => void;
     type Evtss = (t1: string, t2: string) => void;
 
-    let classiferEvt: EvtNum = null;
+    let classifierEvt: EvtNum = null;
 
     let btnEvt: Evtxy = null;
     let circleEvt: Evtxyr = null;
@@ -66,8 +66,8 @@ namespace koi {
             let b = a.slice(1, a.length).split(" ")
             let cmd = parseInt(b[0])
             if (cmd == 42) {
-                if (classiferEvt) {
-                    classiferEvt(parseInt(b[1]));
+                if (classifierEvt) {
+                    classifierEvt(parseInt(b[1]));
                 }
             } else if (cmd == 3){
                 if (btnEvt) {
@@ -155,8 +155,8 @@ namespace koi {
         serial.writeLine("K998");
     }
 
-    //% blockId=koi_reset_cls block="KOI Reset Classifer"
-    //% group="Classifer" weight=90
+    //% blockId=koi_reset_cls block="KOI Reset Classifier"
+    //% group="Classifier" weight=90
     export function koi_reset_cls(): void {
         let str = `K40`;
         serial.writeLine(str)
@@ -167,14 +167,14 @@ namespace koi {
     */
     //% blockId=koi_addtag block="KOI Add Tag %tag"
     //% tag.min=1 tag.max=20
-    //% group="Classifer" weight=90
+    //% group="Classifier" weight=90
     export function koi_addtag(tag: number): void {
         let str = `K41 ${tag}`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_run block="KOI Run Clissifer"
-    //% group="Classifer" weight=90
+    //% group="Classifier" weight=90
     export function koi_run(): void {
         let str = `K42`;
         serial.writeLine(str)
@@ -184,7 +184,7 @@ namespace koi {
      * @param path bin to save; eg: class.bin
     */
     //% blockId=koi_cls_save block="KOI Save Clissifer %path"
-    //% group="Classifer" weight=90
+    //% group="Classifier" weight=90
     export function koi_cls_save(path: string): void {
         let str = `K43 ${path}`;
         serial.writeLine(str)
@@ -194,16 +194,16 @@ namespace koi {
      * @param path bin to save; eg: class.bin
     */
     //% blockId=koi_cls_load block="KOI Load Clissifer %path"
-    //% group="Classifer" weight=90
+    //% group="Classifier" weight=90
     export function koi_cls_load(path: string): void {
         let str = `K44 ${path}`;
         serial.writeLine(str)
     }
 
     //% blockId=koi_classified block="on Identified"
-    //% group="Classifer" weight=90 draggableParameters=reporter blockGap=48
+    //% group="Classifier" weight=90 draggableParameters=reporter blockGap=48
     export function koi_classified(handler: (classId: number) => void) {
-        classiferEvt = handler;
+        classifierEvt = handler;
     }
 
     /**
@@ -401,7 +401,7 @@ namespace koi {
      * @param user Username; eg: user
      * @param pass Password; eg: pass
     */
-    //% blockId=koi_mqtt_host block="Mqtt Host %host %cid||Port%port User%user Pass%pass"
+    //% blockId=koi_mqtt_host block="Mqtt Host %host| clientID%cid||Port%port User%user Pass%pass"
     //% group="Wifi" weight=70
     export function koi_mqtt_host(host: string, cid: string, port: number=1883, user:string=null, pass:string=null) {
         if (user && pass){
