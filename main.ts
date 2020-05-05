@@ -5,7 +5,7 @@ load dependency
 */
 
 //% color="#5c7cfa" weight=10 icon="\u03f0"
-//% groups='["Basic", "Graphic", Classifier", "Tag/Code", "Audio", "Face", "Wifi"]'
+//% groups='["Basic", "Graphic", Classifier", "Tag/Code", "Audio", "Face", "Wifi", "CloudAI"]'
 namespace koi {
 
     type EvtAct = () => void;
@@ -19,6 +19,7 @@ namespace koi {
     type Evtss = (t1: string, t2: string) => void;
 
     let classifierEvt: EvtNum = null;
+    let speechCmdEvt: EvtNum = null;
 
     let btnEvt: Evtxy = null;
     let circleEvt: Evtxyr = null;
@@ -112,6 +113,10 @@ namespace koi {
             } else if (cmd == 55) {
                 if (mqttDataEvt) {
                     mqttDataEvt(b[1], b[2])
+                }
+            } else if (cmd == 65) {
+                if (speechCmdEvt) {
+                    speechCmdEvt(parseInt(b[1]))
                 }
             }
         }
@@ -459,6 +464,34 @@ namespace koi {
     //% group="Audio" weight=90
     export function koi_audio_rec(file: string) {
         serial.writeLine(`K61 ${file}`)
+    }
+
+    /**
+     * @param base Noise Base; eg: 12000
+    */
+    //% blockId=koi_audio_noisetap block="Noise Tap %base"
+    //% group="Audio" weight=89
+    export function koi_audio_noisetap(base: number) {
+        serial.writeLine(`K63 ${base}`)
+    }
+
+    //% blockId=koi_speechcmd_addmodel block="Speech Cmd add %classid"
+    //% group="Audio" weight=88
+    export function koi_speechcmd_addmodel(classid: number) {
+        serial.writeLine(`K64 ${classid}`)
+    }
+
+    //% blockId=koi_speechcmd_onrecognize block="on Speech Cmd"
+    //% group="Audio" weight=87 draggableParameters=reporter blockGap=48
+    export function koi_speechcmd_onrecognize(handler: (classId: number) => void) {
+        speechCmdEvt = handler;
+    }
+
+    //% blockId=koi_speechcmd_listen block="Speech Cmd Listen"
+    //% group="Audio" weight=86
+    export function koi_speechcmd_listen(): void {
+        let str = `K65`;
+        serial.writeLine(str)
     }
 
 }
