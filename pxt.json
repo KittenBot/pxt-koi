@@ -1,6 +1,6 @@
 {
     "name": "koi",
-    "version": "0.2.1",
+    "version": "0.2.3",
     "description": "Extension for KOI AI module",
     "license": "MIT",
     "dependencies": {

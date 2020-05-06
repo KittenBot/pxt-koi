@@ -17,9 +17,13 @@ namespace koi {
     type Evttxt = (txt: string) => void;
     type Evtsxy = (txt: string, x: number, y: number) => void;
     type Evtss = (t1: string, t2: string) => void;
+    type Evtsn = (t1: string, n: number) => void;
+    type Evtssn = (t1: string, t2: string, n: number) => void;
 
     let classifierEvt: EvtNum = null;
     let speechCmdEvt: EvtNum = null;
+    let facetokenEvt: Evtssn = null;
+    let facefoundEvt: Evtsn = null;
 
     let btnEvt: Evtxy = null;
     let circleEvt: Evtxyr = null;
@@ -117,6 +121,15 @@ namespace koi {
             } else if (cmd == 65) {
                 if (speechCmdEvt) {
                     speechCmdEvt(parseInt(b[1]))
+                }
+            } else if (cmd == 75){
+                if (facetokenEvt){
+                    // koi server return: token, age, sex
+                    facetokenEvt(b[1], b[3], parseInt(b[2]))
+                }
+            } else if (cmd == 77) {
+                if (facefoundEvt) {
+                    facefoundEvt(b[1], parseInt(b[2]))
                 }
             }
         }
@@ -492,6 +505,36 @@ namespace koi {
     export function koi_speechcmd_listen(): void {
         let str = `K65`;
         serial.writeLine(str)
+    }
+
+    //% blockId=koi_cloud_facerecognize block="KOI Cloud Face Recognize"
+    //% group="CloudAI" weight=50
+    export function koi_cloud_facerecognize(classid: number) {
+        serial.writeLine(`K75`)
+    }
+
+    //% blockId=koi_cloud_onregface block="on Recognize Face"
+    //% group="CloudAI" weight=49 draggableParameters=reporter blockGap=48
+    export function koi_cloud_onregface(handler: (token: string, sex: string, age: number) => void) {
+        facetokenEvt = handler;
+    }
+
+    //% blockId=koi_cloud_faceaddgroup block="add face token %TOKEN to Group %GROUP with name %NAME"
+    //% group="CloudAI" weight=48
+    export function koi_cloud_faceaddgroup(TOKEN: string, GROUP: string, NAME: string) {
+        serial.writeLine(`K76 ${TOKEN} ${GROUP} ${NAME}`)
+    }
+
+    //% blockId=koi_cloud_facesearch block="search face token %TOKEN in group %GROUP"
+    //% group="CloudAI" weight=48
+    export function koi_cloud_facesearch(TOKEN: string, GROUP: string) {
+        serial.writeLine(`K77 ${TOKEN} ${GROUP}`)
+    }
+
+    //% blockId=koi_cloud_onfindface block="on Find Face"
+    //% group="CloudAI" weight=46 draggableParameters=reporter blockGap=48
+    export function koi_cloud_onfindface(handler: (name: string, confidence: number) => void) {
+        facefoundEvt = handler;
     }
 
 }
