@@ -509,7 +509,7 @@ namespace koi {
 
     //% blockId=koi_cloud_facerecognize block="KOI Cloud Face Recognize"
     //% group="CloudAI" weight=50
-    export function koi_cloud_facerecognize(classid: number) {
+    export function koi_cloud_facerecognize() {
         serial.writeLine(`K75`)
     }
 
