@@ -49,5 +49,8 @@
     "koi.koi_cloud_onregface|block": "人脸识别返回",
     "koi.koi_cloud_faceaddgroup|block": "将人脸特征 %TOKEN 添加到组 %GROUP 名字 %NAME",
     "koi.koi_cloud_facesearch|block": "在组 %GROUP 搜索人脸特征 %TOKEN",
-    "koi.koi_cloud_onfindface|block": "搜索人脸返回"
+    "koi.koi_cloud_onfindface|block": "搜索人脸返回",
+    "koi.LcdDirection.Back|block":"后置摄像头",
+    "koi.LcdDirection.Front|block":"前置摄像头",
+    "koi.LcdDirection.Land|block":"横屏"
 }

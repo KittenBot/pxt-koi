@@ -40,6 +40,9 @@
     "koi.koi_audio_rec|block": "錄制wav音頻 %file",
     "koi.koi_apriltag|block": "KOI AprilTag掃描",
     "koi.koi_onapriltag|block": "AprilTag",
-    "koi.koi_showip|block": "顯示WIFI地址"
+    "koi.koi_showip|block": "顯示WIFI地址",
+    "koi.LcdDirection.Back|block":"後置攝像頭",
+    "koi.LcdDirection.Front|block":"前置攝像頭",
+    "koi.LcdDirection.Land|block":"橫屏"
 }
 
