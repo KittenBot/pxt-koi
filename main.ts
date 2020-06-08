@@ -52,10 +52,10 @@ namespace koi {
     }
 
     export enum LcdDirection {
-        //% block=Back
-        Back = 0,
         //% block=Front
-        Front = 1,
+        Front = 0,
+        //% block=Back
+        Back = 1,
         //% block=Land
         Land = 2
     }
