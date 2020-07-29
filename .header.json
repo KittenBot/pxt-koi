@@ -1,6 +1,6 @@
 {
     "target": "microbit",
-    "targetVersion": "2.2.19",
+    "targetVersion": "2.3.69",
     "name": "koi",
     "meta": {},
     "editor": "tsprj",
@@ -8,11 +8,13 @@
     "pubCurrent": false,
     "_rev": null,
     "id": "5419d011-ef29-400e-49d8-fa8788fe5e59",
-    "recentUse": 1584520948,
-    "modificationTime": 1584520948,
+    "recentUse": 1592627047,
+    "modificationTime": 1592626694,
     "blobId": null,
     "blobVersion": null,
     "blobCurrent": false,
     "isDeleted": false,
-    "path": "pxt-koi"
+    "path": "pxt-koi",
+    "githubCurrent": false,
+    "saveId": null
 }
