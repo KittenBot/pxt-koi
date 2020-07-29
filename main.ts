@@ -20,7 +20,7 @@ namespace koi {
     type Evtsn = (t1: string, n: number) => void;
     type Evtssn = (t1: string, t2: string, n: number) => void;
 
-    let classifierEvt: EvtNum = null;
+    let classifierEvt: Evttxt = null;
     let speechCmdEvt: EvtNum = null;
     let facetokenEvt: Evtssn = null;
     let facefoundEvt: Evtsn = null;
@@ -53,8 +53,8 @@ namespace koi {
 
     export enum LcdDirection {
         Front = 0,
-        Back = 1,
-        Land = 2
+        Back = 2,
+        Land = 1
     }
 
     function trim(n: string): string {
@@ -72,7 +72,7 @@ namespace koi {
             let cmd = parseInt(b[0])
             if (cmd == 42) {
                 if (classifierEvt) {
-                    classifierEvt(parseInt(b[1]));
+                    classifierEvt(b[1]);
                 }
             } else if (cmd == 3){
                 if (btnEvt) {
@@ -167,12 +167,6 @@ namespace koi {
         koi_init(PortSerial[port][1], PortSerial[port][0]);
     }
 
-    //% blockId=koi_reset block="KOI Reset"
-    //% group="Basic" weight=60
-    export function koi_reset(port: SerialPorts): void {
-        serial.writeLine("K998");
-    }
-
     //% blockId=koi_reset_cls block="KOI Reset Classifier"
     //% group="Classifier" weight=90
     export function koi_reset_cls(): void {
@@ -181,12 +175,11 @@ namespace koi {
     }
 
     /**
-     * @param tag tag index; eg: 1
+     * @param tag tag index; eg: cat
     */
     //% blockId=koi_addtag block="KOI Add Tag %tag"
-    //% tag.min=1 tag.max=20
     //% group="Classifier" weight=90
-    export function koi_addtag(tag: number): void {
+    export function koi_addtag(tag: string): void {
         let str = `K41 ${tag}`;
         serial.writeLine(str)
     }
@@ -199,7 +192,7 @@ namespace koi {
     }
 
     /**
-     * @param path bin to save; eg: class.bin
+     * @param path json to save; eg: class.json
     */
     //% blockId=koi_cls_save block="KOI Save Clissifer %path"
     //% group="Classifier" weight=90
@@ -209,7 +202,7 @@ namespace koi {
     }
 
     /**
-     * @param path bin to save; eg: class.bin
+     * @param path json to save; eg: class.json
     */
     //% blockId=koi_cls_load block="KOI Load Clissifer %path"
     //% group="Classifier" weight=90
@@ -220,12 +213,12 @@ namespace koi {
 
     //% blockId=koi_classified block="on Identified"
     //% group="Classifier" weight=90 draggableParameters=reporter blockGap=48
-    export function koi_classified(handler: (classId: number) => void) {
+    export function koi_classified(handler: (classId: string) => void) {
         classifierEvt = handler;
     }
 
     /**
-     * @param name savepath; eg: abc.png
+     * @param name savepath; eg: abc.jpg
     */
     //% blockId=koi_screenshot block="KOI Screenshot %name"
     //% group="Basic" weight=89
@@ -235,7 +228,7 @@ namespace koi {
     }
 
     /**
-     * @param name png to display; eg: banana.png
+     * @param name jpeg to display; eg: banana.jpg
     */
     //% blockId=koi_display block="KOI Display %name"
     //% group="Basic" weight=89 blockGap=48
