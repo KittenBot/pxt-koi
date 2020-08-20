@@ -459,6 +459,7 @@ namespace koi {
   export function koi_facedetect() {
     let str = `K31`
     serial.writeLine(str)
+    basic.pause(200)
   }
 
   //% blockId=koi_onfindface block="on Find Face"
