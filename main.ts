@@ -173,7 +173,7 @@ namespace koi {
         }
       } else if (cmd == 75) {
         if (facetokenEvt) {
-          // koi server return: token, age, sex
+          // koi server return: token, sex, age
           facetokenEvt(b[1], b[3], parseInt(b[2]))
         }
       } else if (cmd == 77) {
@@ -271,6 +271,13 @@ namespace koi {
   export function koi_screenshot(name: string): void {
     let str = `K2 ${name}`
     serial.writeLine(str)
+  }
+
+
+  //% blockId=koi_reset block="KOI reset"
+  //% group="Basic" weight=60
+  export function koi_reset(): void {
+    serial.writeLine(`K99`)
   }
 
   /**
