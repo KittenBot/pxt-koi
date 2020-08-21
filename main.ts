@@ -230,7 +230,7 @@ namespace koi {
     serial.writeLine(str)
   }
 
-  //% blockId=koi_run block="KOI Run Clissifer"
+  //% blockId=koi_run block="KOI Run Classifer"
   //% group="Classifier" weight=90
   export function koi_run(): void {
     let str = `K42`
@@ -240,7 +240,7 @@ namespace koi {
   /**
    * @param path json to save; eg: class.json
    */
-  //% blockId=koi_cls_save block="KOI Save Clissifer %path"
+  //% blockId=koi_cls_save block="KOI Save Classifier %path"
   //% group="Classifier" weight=90
   export function koi_cls_save(path: string): void {
     let str = `K43 ${path}`
@@ -250,7 +250,7 @@ namespace koi {
   /**
    * @param path json to save; eg: class.json
    */
-  //% blockId=koi_cls_load block="KOI Load Clissifer %path"
+  //% blockId=koi_cls_load block="KOI Load Classifier %path"
   //% group="Classifier" weight=90
   export function koi_cls_load(path: string): void {
     let str = `K44 ${path}`
@@ -294,7 +294,7 @@ namespace koi {
   //% weight=89
   //% group="Basic" draggableParameters=reporter
   export function koi_onbtn(
-    handler: (btn1: number, btn2: number) => void
+    handler: (btnA: number, btnB: number) => void
   ): void {
     btnEvt = handler
   }
@@ -585,8 +585,7 @@ namespace koi {
   //% blockId=koi_speechcmd_listen block="Speech Cmd Listen"
   //% group="Audio" weight=86
   export function koi_speechcmd_listen(): void {
-    let str = `K65`
-    serial.writeLine(str)
+    serial.writeLine('K64')
   }
 
   //% blockId=koi_cloud_facerecognize block="KOI Cloud Face Recognize"
@@ -625,5 +624,14 @@ namespace koi {
     handler: (name: string, confidence: number) => void
   ) {
     facefoundEvt = handler
+  }
+
+  /**
+   * @param TXT text to speech; eg: hello world
+   */
+  //% blockId=koi_cloud_tts block="TTS %TXT"
+  //% group="CloudAI" weight=45
+  export function koi_cloud_tts(TXT: string) {
+    serial.writeLine(`K78 ${TXT}`)
   }
 }
