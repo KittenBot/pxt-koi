@@ -585,7 +585,7 @@ namespace koi {
   //% blockId=koi_speechcmd_listen block="Speech Cmd Listen"
   //% group="Audio" weight=86
   export function koi_speechcmd_listen(): void {
-    serial.writeLine('K64')
+    serial.writeLine('K65')
   }
 
   //% blockId=koi_cloud_facerecognize block="KOI Cloud Face Recognize"
