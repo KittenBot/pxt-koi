@@ -332,7 +332,7 @@ namespace koi {
   }
 
   /**
-   * @param th threshold; eg: 3000
+   * @param th threshold; eg: 2000
    */
   //% blockId=koi_track_circle block="KOI track circle threshold%th"
   //% group="Graphic" weight=88
@@ -568,7 +568,7 @@ namespace koi {
   }
 
   /**
-   * @param base Noise Base; eg: 12000
+   * @param base Noise Base; eg: 200000
    */
   //% blockId=koi_audio_noisetap block="Noise Tap %base"
   //% group="Audio" weight=89
@@ -593,7 +593,7 @@ namespace koi {
   //% blockId=koi_speechcmd_listen block="Speech Cmd Listen"
   //% group="Audio" weight=86
   export function koi_speechcmd_listen(): void {
-    serial.writeLine('K64')
+    serial.writeLine('K65')
   }
 
   //% blockId=koi_cloud_facerecognize block="KOI Cloud Face Recognize"
