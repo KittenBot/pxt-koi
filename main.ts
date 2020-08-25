@@ -81,6 +81,7 @@ namespace koi {
       a = trim(a)
       let b = a.slice(1, a.length).split(' ')
       let cmd = parseInt(b[0])
+      control.raiseEvent(EventBusSource.MES_BROADCAST_GENERAL_ID, 0x8900+cmd)
       if (cmd == 42) {
         if (classifierEvt) {
           classifierEvt(b[1])
@@ -160,7 +161,7 @@ namespace koi {
         }
       } else if (cmd == 31) {
         // face position
-        if (facedetEvt) {
+        if (facedetEvt && b[1]) {
           facedetEvt(parseInt(b[1]), parseInt(b[2]))
         }
       } else if (cmd == 55) {
@@ -183,6 +184,12 @@ namespace koi {
       }
     }
   })
+
+  function asyncWrite(msg: string, evt: number): void {
+    serial.writeLine(msg)
+    control.waitForEvent(EventBusSource.MES_BROADCAST_GENERAL_ID, 0x8900 + evt)
+
+  }
 
   /**
    * init serial port
@@ -458,8 +465,9 @@ namespace koi {
   //% group="Face" weight=81
   export function koi_facedetect() {
     let str = `K31`
-    serial.writeLine(str)
-    basic.pause(200)
+    // serial.writeLine(str)
+    // basic.pause(200)
+    asyncWrite(str, 31)
   }
 
   //% blockId=koi_onfindface block="on Find Face"
