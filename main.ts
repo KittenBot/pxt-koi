@@ -46,10 +46,10 @@ namespace koi {
   let mqttDataEvt: Evtss = null
 
   const PortSerial = [
-    [SerialPin.P8, SerialPin.P0],
-    [SerialPin.P12, SerialPin.P1],
-    [SerialPin.P13, SerialPin.P2],
-    [SerialPin.P15, SerialPin.P14],
+    [SerialPin.P0, SerialPin.P8],
+    [SerialPin.P1, SerialPin.P12],
+    [SerialPin.P2, SerialPin.P13],
+    [SerialPin.P14, SerialPin.P15],
   ]
 
   export enum SerialPorts {
