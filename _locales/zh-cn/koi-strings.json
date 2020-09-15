@@ -39,7 +39,7 @@
     "koi.koi_audio_play|block": "播放wav音频 %file",
     "koi.koi_audio_rec|block": "录制wav音频 %file",
     "koi.koi_audio_noisetap|block": "环境噪声基准 %base",
-    "koi.koi_speechcmd_addmodel|block": "命令词添加 %classid",
+    "koi.koi_speechcmd_addmodel|block": "添加命令词 %classid",
     "koi.koi_speechcmd_onrecognize|block": "当听到命令词",
     "koi.koi_speechcmd_listen|block": "命令词听取",
     "koi.koi_apriltag|block": "KOI AprilTag扫描",
