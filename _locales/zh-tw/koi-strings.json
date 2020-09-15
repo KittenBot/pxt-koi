@@ -52,6 +52,6 @@
     "koi.koi_cloud_onregface|block": "人臉識別返回",
     "koi.koi_cloud_faceaddgroup|block": "將人臉特徵 %TOKEN 添加到組 %GROUP 名字 %NAME",
     "koi.koi_cloud_facesearch|block": "搜索人臉特徵 %TOKEN 在組 %GROUP",
-    "koi.koi_cloud_onfindface|block": "搜索到人臉返回",
+    "koi.koi_cloud_onfindface|block": "搜索到人臉返回"
 }
 
