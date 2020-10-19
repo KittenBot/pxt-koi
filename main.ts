@@ -323,6 +323,31 @@ namespace koi {
     serial.writeLine(str)
   }
 
+  /**
+   * @param txt string to display; eg: 你好世界
+   */
+  //% blockId=koi_print_unicode block="Print UNICODE X %x Y %y %txt||delay %delay ms"
+  //% x.min=0 x.max=240
+  //% y.min=0 y.max=240
+  //% group="Basic" weight=99
+  //% advanced=true
+  export function koi_print_unicode(
+    x: number,
+    y: number,
+    txt: string,
+    delay: number = 1000
+  ): void {
+    let s: string = '${';
+    for (let i=0;i<txt.length;i++){
+      s += txt.charCodeAt(i)
+      if (i != (txt.length-1)) s += ','
+    }
+    s += '}'
+    
+    let str = `K5 ${x} ${y} ${delay} ${s}`
+    serial.writeLine(str)
+  }
+
   //% blockId=koi_lcd_direction block="KOI LCD Dir%dir"
   //% group="Basic" weight=89 blockGap=48
   export function koi_lcd_direction(dir: LcdDirection): void {
