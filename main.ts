@@ -392,37 +392,46 @@ namespace koi {
     rectEvt = handler
   }
 
-  //% blockId=koi_colorcali block="KOI color calibration"
+  /**
+   * @param key color key; eg: red
+   */
+  //% blockId=koi_colorcali block="KOI color calibration %key"
   //% group="Graphic" weight=86
-  export function koi_colorcali() {
-    let str = `K16`
+  export function koi_colorcali(key: string) {
+    let str = `K16 ${key}`
     serial.writeLine(str)
   }
 
-  //% blockId=koi_track_line block="KOI track line"
-  //% group="Graphic" weight=86
-  export function koi_track_line(): void {
-    let str = `K12`
+  /**
+   * @param key color key; eg: red
+   */
+  //% blockId=koi_track_line block="KOI track line %key"
+  //% group="Graphic" weight=85
+  export function koi_track_line(key: string): void {
+    let str = `K12 ${key}`
     serial.writeLine(str)
   }
 
   //% blockId=koi_onlinetrack block="on Line Update"
-  //% group="Graphic" weight=85 draggableParameters=reporter blockGap=48
+  //% group="Graphic" weight=84 draggableParameters=reporter blockGap=48
   export function koi_onlinetrack(
     handler: (x1: number, y1: number, x2: number, y2: number) => void
   ) {
     lineEvt = handler
   }
 
-  //% blockId=koi_track_colorblob block="KOI track color blob"
-  //% group="Graphic" weight=85
-  export function koi_track_colorblob(): void {
-    let str = `K15`
+  /**
+   * @param key color key; eg: red
+   */
+  //% blockId=koi_track_colorblob block="KOI track color blob %key"
+  //% group="Graphic" weight=83
+  export function koi_track_colorblob(key: string): void {
+    let str = `K15 ${key}`
     serial.writeLine(str)
   }
 
   //% blockId=koi_oncolorblob block="on Color blob"
-  //% group="Graphic" weight=85 draggableParameters=reporter blockGap=48
+  //% group="Graphic" weight=82 draggableParameters=reporter blockGap=48
   export function koi_oncolorblob(
     handler: (x: number, y: number, w: number, h: number) => void
   ) {
