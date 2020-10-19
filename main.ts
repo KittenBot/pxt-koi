@@ -26,11 +26,11 @@ namespace koi {
   ) => void
   type Evtss = (t1: string, t2: string) => void
   type Evtsn = (t1: string, n: number) => void
-  type Evtssn = (t1: string, t2: string, n: number) => void
+  type Evtssnns = (t1: string, t2: string, n: number, n1: number, t3: string) => void
 
   let classifierEvt: Evttxt = null
   let speechCmdEvt: EvtNum = null
-  let facetokenEvt: Evtssn = null
+  let facetokenEvt: Evtssnns = null
   let facefoundEvt: Evtsn = null
 
   let btnEvt: Evtxy = null
@@ -174,8 +174,8 @@ namespace koi {
         }
       } else if (cmd == 75) {
         if (facetokenEvt) {
-          // koi server return: token, sex, age
-          facetokenEvt(b[1], b[3], parseInt(b[2]))
+          // K75 token age gender ismask expression
+          facetokenEvt(b[1], b[3], parseInt(b[2]), parseInt(b[4]), b[5])
         }
       } else if (cmd == 77) {
         if (facefoundEvt) {
@@ -605,7 +605,7 @@ namespace koi {
   //% blockId=koi_cloud_onregface block="on Recognize Face"
   //% group="CloudAI" weight=49 draggableParameters=reporter blockGap=48
   export function koi_cloud_onregface(
-    handler: (token: string, sex: string, age: number) => void
+    handler: (token: string, sex: string, age: number, mask: number, expression: string) => void
   ) {
     facetokenEvt = handler
   }
