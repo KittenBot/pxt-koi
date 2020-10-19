@@ -45,6 +45,8 @@ namespace koi {
   let facedetEvt: Evtxy = null
   let mqttDataEvt: Evtss = null
 
+  let lastCmd: Array<String> = null
+
   const PortSerial = [
     [SerialPin.P0, SerialPin.P8],
     [SerialPin.P1, SerialPin.P12],
@@ -81,7 +83,6 @@ namespace koi {
       a = trim(a)
       let b = a.slice(1, a.length).split(' ')
       let cmd = parseInt(b[0])
-      control.raiseEvent(EventBusSource.MES_BROADCAST_GENERAL_ID, 0x8900+cmd)
       if (cmd == 42) {
         if (classifierEvt) {
           classifierEvt(b[1])
@@ -181,7 +182,10 @@ namespace koi {
         if (facefoundEvt) {
           facefoundEvt(b[1], parseInt(b[2]))
         }
+      } else {
+        lastCmd = b.slice(1); // deep copy?
       }
+      control.raiseEvent(EventBusSource.MES_BROADCAST_GENERAL_ID, 0x8900+cmd)
     }
   })
 
@@ -581,6 +585,13 @@ namespace koi {
     handler: (data: string, topic: string) => void
   ) {
     mqttDataEvt = handler
+  }
+
+  //% blockId=koi_gettime block="KOI get time"
+  //% group="Wifi" weight=50
+  export function koi_gettime(): Array<String> {
+    asyncWrite(`K56`, 56)
+    return lastCmd
   }
 
   /**
