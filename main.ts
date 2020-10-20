@@ -225,7 +225,7 @@ namespace koi {
   //% blockId=koi_init_pw block="KOI init powerbrick|Port %port"
   //% group="Basic" weight=100
   export function koi_init_pw(port: SerialPorts): void {
-    koi_init(PortSerial[port][1], PortSerial[port][0])
+    koi_init(PortSerial[port][0], PortSerial[port][1])
   }
 
 
