@@ -29,6 +29,7 @@ namespace koi {
   type Evtssnns = (t1: string, t2: string, n: number, n1: number, t3: string) => void
 
   let classifierEvt: Evttxt = null
+  let kmodelEvt: EvtNum = null
   let speechCmdEvt: EvtNum = null
   let facetokenEvt: Evtssnns = null
   let facefoundEvt: Evtsn = null
@@ -86,6 +87,10 @@ namespace koi {
       if (cmd == 42) {
         if (classifierEvt) {
           classifierEvt(b[1])
+        }
+      } else if (cmd == 46) {
+        if (kmodelEvt) {
+          kmodelEvt(parseInt(b[1]))
         }
       } else if (cmd == 3) {
         if (btnEvt) {
@@ -273,6 +278,32 @@ namespace koi {
   export function koi_classified(handler: (classId: string) => void) {
     classifierEvt = handler
   }
+
+  /**
+   * @param path kmodel to load; eg: model.kmodel
+   */
+  //% blockId=koi_loadkmodel block="Load Kmode %path"
+  //% group="Classifier" weight=90
+  //% advanced=true
+  export function koi_loadkmodel(path: string) {
+    let str = `K45 ${path}`
+    asyncWrite(str, 45)
+  }
+
+  //% blockId=koi_inference block="Kmodel inference"
+  //% group="Classifier" weight=89
+  //% advanced=true
+  export function koi_inference() {
+    serial.writeLine(`K46`)
+  }
+
+  //% blockId=koi_on_inference block="on Inference"
+  //% group="Classifier" weight=85 draggableParameters=reporter blockGap=48
+  //% advanced=true
+  export function koi_on_inference(handler: (index: number) => void) {
+    kmodelEvt = handler
+  }
+
 
   /**
    * @param name savepath; eg: abc.jpg
