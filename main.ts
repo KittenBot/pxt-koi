@@ -30,7 +30,7 @@ namespace koi {
 
   let classifierEvt: Evttxt = null
   let kmodelEvt: EvtNum = null
-  let speechCmdEvt: EvtNum = null
+  let speechCmdEvt: Evttxt = null
   let facetokenEvt: Evtssnns = null
   let facefoundEvt: Evtsn = null
 
@@ -176,7 +176,7 @@ namespace koi {
         }
       } else if (cmd == 65) {
         if (speechCmdEvt) {
-          speechCmdEvt(parseInt(b[1]))
+          speechCmdEvt(b[1])
         }
       } else if (cmd == 75) {
         if (facetokenEvt) {
@@ -524,7 +524,7 @@ namespace koi {
   }
 
   //% blockId=koi_loadyoloface block="KOI Load Face yolo"
-  //% group="Face" weight=81
+  //% group="Face" weight=82
   export function koi_loadyoloface() {
     let str = `K30`
     serial.writeLine(str)
@@ -556,7 +556,7 @@ namespace koi {
   }
 
   //% blockId=koi_showip block="Wifi Show IP"
-  //% group="Wifi" weight=80
+  //% group="Wifi" weight=79
   export function koi_showip() {
     serial.writeLine(`K54`)
   }
@@ -603,9 +603,12 @@ namespace koi {
     serial.writeLine(`K53 ${topic} ${data}`)
   }
 
-  //% blockId=koi_mqtt_read block="Mqtt Read||%topic"
+  /**
+   * @param topic Mqtt Read; eg: /topic
+   */
+  //% blockId=koi_mqtt_read block="Mqtt Read %topic"
   //% group="Wifi" weight=60
-  export function koi_mqtt_read(topic: string = null) {
+  export function koi_mqtt_read(topic: string) {
     topic = topic || ''
     serial.writeLine(`K55 ${topic}`)
   }
@@ -618,15 +621,15 @@ namespace koi {
     mqttDataEvt = handler
   }
 
-  //% blockId=koi_gettime block="KOI get time"
-  //% group="Wifi" weight=50
-  export function koi_gettime(): Array<String> {
-    asyncWrite(`K56`, 56)
-    return lastCmd
-  }
+  // //% blockId=koi_gettime block="KOI get time"
+  // //% group="Wifi" weight=50
+  // export function koi_gettime(): Array<String> {
+  //   asyncWrite(`K56`, 56)
+  //   return lastCmd
+  // }
 
   /**
-   * @param file Wav File to play; eg: bing.wav
+   * @param file Wav File to play; eg: say.wav
    */
   //% blockId=koi_audio_play block="WAV Play %file"
   //% group="Audio" weight=90
@@ -652,22 +655,25 @@ namespace koi {
     serial.writeLine(`K63 ${base}`)
   }
 
+  /**
+   * @param classid Speech Cmd add; eg: cmd
+   */
   //% blockId=koi_speechcmd_addmodel block="Speech Cmd add %classid"
   //% group="Audio" weight=88
-  export function koi_speechcmd_addmodel(classid: number) {
+  export function koi_speechcmd_addmodel(classid: string) {
     serial.writeLine(`K64 ${classid}`)
   }
 
   //% blockId=koi_speechcmd_onrecognize block="on Speech Cmd"
-  //% group="Audio" weight=87 draggableParameters=reporter blockGap=48
+  //% group="Audio" weight=86 draggableParameters=reporter blockGap=48
   export function koi_speechcmd_onrecognize(
-    handler: (classId: number) => void
+    handler: (classId: string) => void
   ) {
     speechCmdEvt = handler
   }
 
   //% blockId=koi_speechcmd_listen block="Speech Cmd Listen"
-  //% group="Audio" weight=86
+  //% group="Audio" weight=87
   export function koi_speechcmd_listen(): void {
     serial.writeLine('K65')
   }
