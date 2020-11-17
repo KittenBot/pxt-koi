@@ -223,10 +223,61 @@ namespace koi {
   }
 
   //% blockId=koi_init_pw block="KOI init powerbrick|Port %port"
-  //% group="Basic" weight=100
+  //% group="Basic" weight=99
   export function koi_init_pw(port: SerialPorts): void {
     koi_init(PortSerial[port][0], PortSerial[port][1])
   }
+
+  //% blockId=koi_lcd_direction block="KOI LCD Dir%dir"
+  //% group="Basic" weight=98
+  export function koi_lcd_direction(dir: LcdDirection): void {
+    let str = `K6 ${dir}`
+    serial.writeLine(str)
+    basic.pause(100)
+  }
+
+  /**
+   * @param t string to display; eg: hello
+   * @param d delay; eg: 1000
+   */
+  //% blockId=koi_print block="KOI print %t X %x Y %y || delay %d ms"
+  //% x.min=0 x.max=240
+  //% y.min=0 y.max=240
+  //% group="Basic" weight=97
+  export function koi_print(t: string, x: number,y: number, d:number=1000): void {
+    let str = `K4 ${x} ${y} ${d} ${t}`
+    serial.writeLine(str)
+  }
+
+  //% blockId=koi_onbtn block="on Button"
+  //% weight=96
+  //% group="Basic" draggableParameters=reporter
+  export function koi_onbtn(
+    handler: (btnA: number, btnB: number) => void
+  ): void {
+    btnEvt = handler
+  }
+
+  /**
+   * @param name savepath; eg: name.jpg
+   */
+  //% blockId=koi_screenshot block="KOI Screenshot %name"
+  //% group="Basic" weight=95
+  export function koi_screenshot(name: string): void {
+    let str = `K2 ${name}`
+    serial.writeLine(str)
+  }
+
+  /**
+   * @param name jpeg to display; eg: name.jpg
+   */
+  //% blockId=koi_display block="KOI Display %name"
+  //% group="Basic" weight=94 blockGap=40
+  export function koi_display(name: string): void {
+    let str = `K1 ${name}`
+    serial.writeLine(str)
+  }
+ 
 
 
   //% blockId=koi_reset_cls block="KOI Reset Classifier"
@@ -240,44 +291,436 @@ namespace koi {
    * @param tag tag index; eg: cat
    */
   //% blockId=koi_addtag block="KOI Add Tag %tag"
-  //% group="Classifier" weight=90
+  //% group="Classifier" weight=89
   export function koi_addtag(tag: string): void {
     let str = `K41 ${tag}`
     serial.writeLine(str)
   }
 
   //% blockId=koi_run block="KOI Run Classifer"
-  //% group="Classifier" weight=90
+  //% group="Classifier" weight=88
   export function koi_run(): void {
     let str = `K42`
     serial.writeLine(str)
   }
 
-  /**
-   * @param path json to save; eg: class.json
-   */
-  //% blockId=koi_cls_save block="KOI Save Classifier %path"
-  //% group="Classifier" weight=90
-  export function koi_cls_save(path: string): void {
-    let str = `K43 ${path}`
-    serial.writeLine(str)
-  }
-
-  /**
-   * @param path json to save; eg: class.json
-   */
-  //% blockId=koi_cls_load block="KOI Load Classifier %path"
-  //% group="Classifier" weight=90
-  export function koi_cls_load(path: string): void {
-    let str = `K44 ${path}`
-    serial.writeLine(str)
-  }
-
   //% blockId=koi_classified block="on Identified"
-  //% group="Classifier" weight=90 draggableParameters=reporter blockGap=48
+  //% group="Classifier" weight=87 draggableParameters=reporter
   export function koi_classified(handler: (classId: string) => void) {
     classifierEvt = handler
   }
+
+    /**
+     * @param path json to save; eg: class.json
+     */
+    //% blockId=koi_cls_save block="KOI Save Classifier %path"
+    //% group="Classifier" weight=86
+    export function koi_cls_save(path: string): void {
+      let str = `K43 ${path}`
+      serial.writeLine(str)
+    }
+
+    /**
+     * @param path json to save; eg: class.json
+     */
+    //% blockId=koi_cls_load block="KOI Load Classifier %path"
+    //% group="Classifier" weight=85
+    export function koi_cls_load(path: string): void {
+      let str = `K44 ${path}`
+      serial.writeLine(str)
+    }
+
+
+  /**
+   * @param th threshold; eg: 2000
+   */
+  //% blockId=koi_track_circle block="KOI track circle threshold%th"
+  //% group="Graphic" weight=80
+  export function koi_track_circle(th: number): void {
+    let str = `K10 ${th}`
+    serial.writeLine(str)
+  }
+
+  //% blockId=koi_oncircletrack block="on Find Circle"
+  //% group="Graphic" weight=79 draggableParameters=reporter blockGap=40
+  export function koi_oncircletrack(
+    handler: (x: number, y: number, r: number) => void
+  ) {
+    circleEvt = handler
+  }
+
+  /**
+   * @param th threshold; eg: 6000
+   */
+  //% blockId=koi_track_rect block="KOI track rectangle %th"
+  //% group="Graphic" weight=78
+  export function koi_track_rect(th: number): void {
+    let str = `K11 ${th}`
+    serial.writeLine(str)
+  }
+
+  //% blockId=koi_onrecttrack block="on Find Rectangle"
+  //% group="Graphic" weight=77 draggableParameters=reporter blockGap=40
+  export function koi_onrecttrack(
+    handler: (x: number, y: number, w: number, h: number) => void
+  ) {
+    rectEvt = handler
+  }
+
+  /**
+   * @param key color key; eg: red
+   */
+  //% blockId=koi_colorcali block="KOI color calibration %key"
+  //% group="Graphic" weight=76
+  export function koi_colorcali(key: string) {
+    let str = `K16 ${key}`
+    serial.writeLine(str)
+  }
+
+  /**
+   * @param key color key; eg: red
+   */
+  //% blockId=koi_track_line block="KOI track line %key"
+  //% group="Graphic" weight=75
+  export function koi_track_line(key: string): void {
+    let str = `K12 ${key}`
+    serial.writeLine(str)
+  }
+
+  //% blockId=koi_onlinetrack block="on Line Update"
+  //% group="Graphic" weight=74 draggableParameters=reporter
+  export function koi_onlinetrack(
+    handler: (x1: number, y1: number, x2: number, y2: number) => void
+  ) {
+    lineEvt = handler
+  }
+
+  /**
+   * @param key color key; eg: red
+   */
+  //% blockId=koi_track_colorblob block="KOI track color blob %key"
+  //% group="Graphic" weight=73
+  export function koi_track_colorblob(key: string): void {
+    let str = `K15 ${key}`
+    serial.writeLine(str)
+  }
+
+  //% blockId=koi_oncolorblob block="on Color blob"
+  //% group="Graphic" weight=72 draggableParameters=reporter blockGap=40
+  export function koi_oncolorblob(
+    handler: (x: number, y: number, w: number, h: number) => void
+  ) {
+    colorblobEvt = handler
+  }
+
+  //% blockId=koi_qrcode block="KOI QR code"
+  //% group="Tag/Code" weight=70
+  export function koi_qrcode() {
+    let str = `K20`
+    serial.writeLine(str)
+  }
+
+  //% blockId=koi_onqrcode block="on QR code"
+  //% group="Tag/Code" weight=69 draggableParameters=reporter blockGap=40
+  export function koi_onqrcode(handler: (link: string) => void) {
+    qrcodeEvt = handler
+  }
+
+  //% blockId=koi_barcode block="KOI BAR code"
+  //% group="Tag/Code" weight=68
+  export function koi_barcode() {
+    let str = `K22`
+    serial.writeLine(str)
+  }
+
+  //% blockId=koi_onbarcode block="on Barcode code"
+  //% group="Tag/Code" weight=67 draggableParameters=reporter blockGap=40
+  export function koi_onbarcode(handler: (code: string) => void) {
+    barcodeEvt = handler
+  }
+
+  //% blockId=koi_apriltag block="KOI April Tag"
+  //% group="Tag/Code" weight=66
+  export function koi_apriltag() {
+    let str = `K23`
+    serial.writeLine(str)
+  }
+
+  //% blockId=koi_onapriltag block="on AprilTag"
+  //% group="Tag/Code" weight=65 draggableParameters=reporter blockGap=40
+  export function koi_onapriltag(
+    handler: (
+      id: string,
+      x: number,
+      y: number,
+      w: number,
+      h: number,
+      rX: number,
+      rY: number,
+      rZ: number
+    ) => void
+  ) {
+    apriltagEvt = handler
+  }
+
+  //% blockId=koi_loadyoloface block="KOI Load Face yolo"
+  //% group="Face" weight=60
+  export function koi_loadyoloface() {
+    let str = `K30`
+    serial.writeLine(str)
+  }
+
+  //% blockId=koi_facedetect block="KOI face detect"
+  //% group="Face" weight=59
+  export function koi_facedetect() {
+    let str = `K31`
+    // serial.writeLine(str)
+    // basic.pause(200)
+    asyncWrite(str, 31)
+  }
+
+  //% blockId=koi_onfindface block="on Find Face"
+  //% group="Face" weight=58 draggableParameters=reporter blockGap=40
+  export function koi_onfindface(handler: (x: number, y: number) => void) {
+    facedetEvt = handler
+  }
+
+  /**
+   * @param ssid SSID; eg: ssid
+   * @param pass PASSWORD; eg: password
+   */
+  //% blockId=koi_join_ap block="Join Ap %ssid %pass"
+  //% group="Wifi" weight=50
+  export function koi_join_ap(ssid: string, pass: string) {
+    serial.writeLine(`K50 ${ssid} ${pass}`)
+  }
+
+  //% blockId=koi_showip block="Wifi Show IP"
+  //% group="Wifi" weight=49
+  export function koi_showip() {
+    serial.writeLine(`K54`)
+  }
+
+  //% blockId=koi_gettime block="KOI get time"
+  //% group="Wifi" weight=48
+  export function koi_gettime(): Array<String> {
+    asyncWrite(`K56`, 56)
+    return lastCmd
+  }
+
+  /**
+   * @param host Mqtt host; eg: iot.kittenbot.cn
+   * @param cid Client ID; eg: clientid
+   * @param port Host Port; eg: 1883
+   * @param user Username; eg: user
+   * @param pass Password; eg: pass
+   */
+  //% blockId=koi_mqtt_host block="Mqtt Host %host| clientID%cid||Port%port User%user Pass%pass"
+  //% group="Wifi" weight=47
+  export function koi_mqtt_host(
+    host: string,
+    cid: string,
+    port: number = 1883,
+    user: string = null,
+    pass: string = null
+  ) {
+    if (user && pass) {
+      serial.writeLine(`K51 ${host} ${cid} ${port} ${user} ${pass}`)
+    } else {
+      serial.writeLine(`K51 ${host} ${cid} ${port}`)
+    }
+  }
+
+  /**
+   * @param topic Topic to subscribe; eg: /topic
+   */
+  //% blockId=koi_mqtt_sub block="Mqtt Subscribe %topic"
+  //% group="Wifi" weight=46
+  export function koi_mqtt_sub(topic: string) {
+    serial.writeLine(`K52 ${topic}`)
+  }
+
+  /**
+   * @param topic Topic to publish; eg: /topic
+   * @param data Data to publish; eg: hello
+   */
+  //% blockId=koi_mqtt_pub block="Mqtt Publish %topic %data"
+  //% group="Wifi" weight=45
+  export function koi_mqtt_pub(topic: string, data: string) {
+    serial.writeLine(`K53 ${topic} ${data}`)
+  }
+
+  /**
+   * @param topic Mqtt Read; eg: /topic
+   */
+  //% blockId=koi_mqtt_read block="Mqtt Read %topic"
+  //% group="Wifi" weight=44
+  export function koi_mqtt_read(topic: string) {
+    topic = topic || ''
+    serial.writeLine(`K55 ${topic}`)
+  }
+
+  //% blockId=koi_mqtt_onread block="on Mqtt Data"
+  //% group="Wifi" weight=43 draggableParameters=reporter
+  export function koi_mqtt_onread(
+    handler: (data: string, topic: string) => void
+  ) {
+    mqttDataEvt = handler
+  }
+
+
+  /**
+   * @param file Wav File to record; eg: say.wav
+   */
+  //% blockId=koi_audio_rec block="WAV Rec %file"
+  //% group="Audio" weight=40
+  export function koi_audio_rec(file: string) {
+    serial.writeLine(`K61 ${file}`)
+  }
+
+  /**
+   * @param file Wav File to play; eg: say.wav
+   */
+  //% blockId=koi_audio_play block="WAV Play %file"
+  //% group="Audio" weight=39
+  export function koi_audio_play(file: string) {
+    serial.writeLine(`K62 ${file}`)
+  }
+
+
+  /**
+   * @param base Noise Base; eg: 200000
+   */
+  //% blockId=koi_audio_noisetap block="Noise Tap %base"
+  //% group="Audio" weight=38
+  export function koi_audio_noisetap(base: number) {
+    serial.writeLine(`K63 ${base}`)
+  }
+
+  /**
+   * @param classid Speech Cmd add; eg: cmd
+   */
+  //% blockId=koi_speechcmd_addmodel block="Speech Cmd add %classid"
+  //% group="Audio" weight=37
+  export function koi_speechcmd_addmodel(classid: string) {
+    serial.writeLine(`K64 ${classid}`)
+  }
+
+  //% blockId=koi_speechcmd_listen block="Speech Cmd Listen"
+  //% group="Audio" weight=36
+  export function koi_speechcmd_listen(): void {
+    serial.writeLine('K65')
+  }
+
+  //% blockId=koi_speechcmd_onrecognize block="on Speech Cmd"
+  //% group="Audio" weight=35 draggableParameters=reporter
+  export function koi_speechcmd_onrecognize(
+    handler: (classId: string) => void
+  ) {
+    speechCmdEvt = handler
+  }
+
+    /**
+     * @param path json to save; eg: cmd.json
+     */
+    //% blockId=koi_speechcmd_save block="KOI Save speech cmd %path"
+    //% group="Audio" weight=34
+    export function koi_speechcmd_save(path: string): void {
+      let str = `K66 ${path}`
+      serial.writeLine(str)
+    }
+
+    /**
+     * @param path json to save; eg: cmd.json
+     */
+    //% blockId=koi_speechcmd_load block="KOI Load speech cmd %path"
+    //% group="Audio" weight=33 blockGap=40
+    export function koi_speechcmd_load(path: string): void {
+      let str = `K67 ${path}`
+      serial.writeLine(str)
+    }
+  
+
+  //% blockId=koi_cloud_facerecognize block="KOI Cloud Face Recognize"
+  //% group="CloudAI" weight=30
+  export function koi_cloud_facerecognize() {
+    serial.writeLine(`K75`)
+  }
+
+  //% blockId=koi_cloud_onregface block="on Recognize Face"
+  //% group="CloudAI" weight=29 draggableParameters=reporter
+  export function koi_cloud_onregface(
+    handler: (token: string, sex: string, age: number, mask: number, expression: string) => void
+  ) {
+    facetokenEvt = handler
+  }
+
+  //% blockId=koi_cloud_faceaddgroup block="add face token %TOKEN to Group %GROUP with name %NAME"
+  //% group="CloudAI" weight=28
+  export function koi_cloud_faceaddgroup(
+    TOKEN: string,
+    GROUP: string,
+    NAME: string
+  ) {
+    serial.writeLine(`K76 ${TOKEN} ${GROUP} ${NAME}`)
+  }
+
+  //% blockId=koi_cloud_facesearch block="search face token %TOKEN in group %GROUP"
+  //% group="CloudAI" weight=27
+  export function koi_cloud_facesearch(TOKEN: string, GROUP: string) {
+    serial.writeLine(`K77 ${TOKEN} ${GROUP}`)
+  }
+
+  //% blockId=koi_cloud_onfindface block="on Find Face"
+  //% group="CloudAI" weight=26 draggableParameters=reporter blockGap=40
+  export function koi_cloud_onfindface(
+    handler: (name: string, confidence: number) => void
+  ) {
+    facefoundEvt = handler
+  }
+
+  /**
+   * @param TXT text to speech; eg: hello world
+   */
+  //% blockId=koi_cloud_tts block="TTS %TXT"
+  //% group="CloudAI" weight=25
+  export function koi_cloud_tts(TXT: string) {
+    serial.writeLine(`K78 ${TXT}`)
+  }
+
+
+  //% blockId=koi_reset block="KOI reset"
+  //% group="Basic" weight=1
+  //% advanced=true
+  export function koi_reset(): void {
+    serial.writeLine(`K99`)
+  }
+
+  /**
+   * @param txt string to display; eg: 你好世界
+   */
+  //% blockId=koi_print_unicode block="Print UNICODE X %x Y %y %txt||delay %delay ms"
+  //% x.min=0 x.max=240
+  //% y.min=0 y.max=240
+  //% group="Basic" weight=100
+  //% advanced=true
+  export function koi_print_unicode(
+    x: number,
+    y: number,
+    txt: string,
+    delay: number = 1000
+  ): void {
+    let s: string = '${';
+    for (let i=0;i<txt.length;i++){
+      s += txt.charCodeAt(i)
+      if (i != (txt.length-1)) s += ','
+    }
+    s += '}'
+    
+    let str = `K5 ${x} ${y} ${delay} ${s}`
+    serial.writeLine(str)
+  }
+ 
 
   /**
    * @param path kmodel to load; eg: model.kmodel
@@ -298,430 +741,13 @@ namespace koi {
   }
 
   //% blockId=koi_on_inference block="on Inference"
-  //% group="Classifier" weight=85 draggableParameters=reporter blockGap=48
+  //% group="Classifier" weight=88 draggableParameters=reporter blockGap=40
   //% advanced=true
   export function koi_on_inference(handler: (index: number) => void) {
     kmodelEvt = handler
   }
 
 
-  /**
-   * @param name savepath; eg: abc.jpg
-   */
-  //% blockId=koi_screenshot block="KOI Screenshot %name"
-  //% group="Basic" weight=89
-  export function koi_screenshot(name: string): void {
-    let str = `K2 ${name}`
-    serial.writeLine(str)
-  }
-
-
-  //% blockId=koi_reset block="KOI reset"
-  //% group="Basic" weight=60
-  export function koi_reset(): void {
-    serial.writeLine(`K99`)
-  }
-
-  /**
-   * @param name jpeg to display; eg: banana.jpg
-   */
-  //% blockId=koi_display block="KOI Display %name"
-  //% group="Basic" weight=89 blockGap=48
-  export function koi_display(name: string): void {
-    let str = `K1 ${name}`
-    serial.writeLine(str)
-  }
-
-  //% blockId=koi_onbtn block="on Button"
-  //% weight=89
-  //% group="Basic" draggableParameters=reporter
-  export function koi_onbtn(
-    handler: (btnA: number, btnB: number) => void
-  ): void {
-    btnEvt = handler
-  }
-
-  /**
-   * @param txt string to display; eg: hello world
-   */
-  //% blockId=koi_print block="KOI print X %x Y %y %txt||delay %delay ms"
-  //% x.min=0 x.max=240
-  //% y.min=0 y.max=240
-  //% group="Basic" weight=89
-  export function koi_print(
-    x: number,
-    y: number,
-    txt: string,
-    delay: number = 1000
-  ): void {
-    let str = `K4 ${x} ${y} ${delay} ${txt}`
-    serial.writeLine(str)
-  }
-
-  /**
-   * @param txt string to display; eg: 你好世界
-   */
-  //% blockId=koi_print_unicode block="Print UNICODE X %x Y %y %txt||delay %delay ms"
-  //% x.min=0 x.max=240
-  //% y.min=0 y.max=240
-  //% group="Basic" weight=99
-  //% advanced=true
-  export function koi_print_unicode(
-    x: number,
-    y: number,
-    txt: string,
-    delay: number = 1000
-  ): void {
-    let s: string = '${';
-    for (let i=0;i<txt.length;i++){
-      s += txt.charCodeAt(i)
-      if (i != (txt.length-1)) s += ','
-    }
-    s += '}'
-    
-    let str = `K5 ${x} ${y} ${delay} ${s}`
-    serial.writeLine(str)
-  }
-
-  //% blockId=koi_lcd_direction block="KOI LCD Dir%dir"
-  //% group="Basic" weight=89 blockGap=48
-  export function koi_lcd_direction(dir: LcdDirection): void {
-    let str = `K6 ${dir}`
-    serial.writeLine(str)
-    basic.pause(100)
-  }
-
-  /**
-   * @param th threshold; eg: 2000
-   */
-  //% blockId=koi_track_circle block="KOI track circle threshold%th"
-  //% group="Graphic" weight=88
-  export function koi_track_circle(th: number): void {
-    let str = `K10 ${th}`
-    serial.writeLine(str)
-  }
-
-  //% blockId=koi_oncircletrack block="on Find Circle"
-  //% group="Graphic" weight=88 draggableParameters=reporter blockGap=48
-  export function koi_oncircletrack(
-    handler: (x: number, y: number, r: number) => void
-  ) {
-    circleEvt = handler
-  }
-
-  /**
-   * @param th threshold; eg: 6000
-   */
-  //% blockId=koi_track_rect block="KOI track rectangle %th"
-  //% group="Graphic" weight=87 blockGap=48
-  export function koi_track_rect(th: number): void {
-    let str = `K11 ${th}`
-    serial.writeLine(str)
-  }
-
-  //% blockId=koi_onrecttrack block="on Find Rectangle"
-  //% group="Graphic" weight=87 draggableParameters=reporter blockGap=48
-  export function koi_onrecttrack(
-    handler: (x: number, y: number, w: number, h: number) => void
-  ) {
-    rectEvt = handler
-  }
-
-  /**
-   * @param key color key; eg: red
-   */
-  //% blockId=koi_colorcali block="KOI color calibration %key"
-  //% group="Graphic" weight=86
-  export function koi_colorcali(key: string) {
-    let str = `K16 ${key}`
-    serial.writeLine(str)
-  }
-
-  /**
-   * @param key color key; eg: red
-   */
-  //% blockId=koi_track_line block="KOI track line %key"
-  //% group="Graphic" weight=85
-  export function koi_track_line(key: string): void {
-    let str = `K12 ${key}`
-    serial.writeLine(str)
-  }
-
-  //% blockId=koi_onlinetrack block="on Line Update"
-  //% group="Graphic" weight=84 draggableParameters=reporter blockGap=48
-  export function koi_onlinetrack(
-    handler: (x1: number, y1: number, x2: number, y2: number) => void
-  ) {
-    lineEvt = handler
-  }
-
-  /**
-   * @param key color key; eg: red
-   */
-  //% blockId=koi_track_colorblob block="KOI track color blob %key"
-  //% group="Graphic" weight=83
-  export function koi_track_colorblob(key: string): void {
-    let str = `K15 ${key}`
-    serial.writeLine(str)
-  }
-
-  //% blockId=koi_oncolorblob block="on Color blob"
-  //% group="Graphic" weight=82 draggableParameters=reporter blockGap=48
-  export function koi_oncolorblob(
-    handler: (x: number, y: number, w: number, h: number) => void
-  ) {
-    colorblobEvt = handler
-  }
-
-  //% blockId=koi_qrcode block="KOI QR code"
-  //% group="Tag/Code" weight=83
-  export function koi_qrcode() {
-    let str = `K20`
-    serial.writeLine(str)
-  }
-
-  //% blockId=koi_onqrcode block="on QR code"
-  //% group="Tag/Code" weight=83 draggableParameters=reporter blockGap=48
-  export function koi_onqrcode(handler: (link: string) => void) {
-    qrcodeEvt = handler
-  }
-
-  //% blockId=koi_barcode block="KOI BAR code"
-  //% group="Tag/Code" weight=83
-  export function koi_barcode() {
-    let str = `K22`
-    serial.writeLine(str)
-  }
-
-  //% blockId=koi_onbarcode block="on Barcode code"
-  //% group="Tag/Code" weight=83 draggableParameters=reporter blockGap=48
-  export function koi_onbarcode(handler: (code: string) => void) {
-    barcodeEvt = handler
-  }
-
-  //% blockId=koi_apriltag block="KOI April Tag"
-  //% group="Tag/Code" weight=82
-  export function koi_apriltag() {
-    let str = `K23`
-    serial.writeLine(str)
-  }
-
-  //% blockId=koi_onapriltag block="on AprilTag"
-  //% group="Tag/Code" weight=83 draggableParameters=reporter blockGap=48
-  export function koi_onapriltag(
-    handler: (
-      id: string,
-      x: number,
-      y: number,
-      w: number,
-      h: number,
-      rX: number,
-      rY: number,
-      rZ: number
-    ) => void
-  ) {
-    apriltagEvt = handler
-  }
-
-  //% blockId=koi_loadyoloface block="KOI Load Face yolo"
-  //% group="Face" weight=82
-  export function koi_loadyoloface() {
-    let str = `K30`
-    serial.writeLine(str)
-  }
-
-  //% blockId=koi_facedetect block="KOI face detect"
-  //% group="Face" weight=81
-  export function koi_facedetect() {
-    let str = `K31`
-    // serial.writeLine(str)
-    // basic.pause(200)
-    asyncWrite(str, 31)
-  }
-
-  //% blockId=koi_onfindface block="on Find Face"
-  //% group="Face" weight=81 draggableParameters=reporter blockGap=48
-  export function koi_onfindface(handler: (x: number, y: number) => void) {
-    facedetEvt = handler
-  }
-
-  /**
-   * @param ssid SSID; eg: ssid
-   * @param pass PASSWORD; eg: password
-   */
-  //% blockId=koi_join_ap block="Join Ap %ssid %pass"
-  //% group="Wifi" weight=81
-  export function koi_join_ap(ssid: string, pass: string) {
-    serial.writeLine(`K50 ${ssid} ${pass}`)
-  }
-
-  //% blockId=koi_showip block="Wifi Show IP"
-  //% group="Wifi" weight=79
-  export function koi_showip() {
-    serial.writeLine(`K54`)
-  }
-
-  /**
-   * @param host Mqtt host; eg: iot.kittenbot.cn
-   * @param cid Client ID; eg: clientid
-   * @param port Host Port; eg: 1883
-   * @param user Username; eg: user
-   * @param pass Password; eg: pass
-   */
-  //% blockId=koi_mqtt_host block="Mqtt Host %host| clientID%cid||Port%port User%user Pass%pass"
-  //% group="Wifi" weight=70
-  export function koi_mqtt_host(
-    host: string,
-    cid: string,
-    port: number = 1883,
-    user: string = null,
-    pass: string = null
-  ) {
-    if (user && pass) {
-      serial.writeLine(`K51 ${host} ${cid} ${port} ${user} ${pass}`)
-    } else {
-      serial.writeLine(`K51 ${host} ${cid} ${port}`)
-    }
-  }
-
-  /**
-   * @param topic Topic to subscribe; eg: /topic
-   */
-  //% blockId=koi_mqtt_sub block="Mqtt Subscribe %topic"
-  //% group="Wifi" weight=61
-  export function koi_mqtt_sub(topic: string) {
-    serial.writeLine(`K52 ${topic}`)
-  }
-
-  /**
-   * @param topic Topic to publish; eg: /topic
-   * @param data Data to publish; eg: hello
-   */
-  //% blockId=koi_mqtt_pub block="Mqtt Publish %topic %data"
-  //% group="Wifi" weight=60
-  export function koi_mqtt_pub(topic: string, data: string) {
-    serial.writeLine(`K53 ${topic} ${data}`)
-  }
-
-  /**
-   * @param topic Mqtt Read; eg: /topic
-   */
-  //% blockId=koi_mqtt_read block="Mqtt Read %topic"
-  //% group="Wifi" weight=60
-  export function koi_mqtt_read(topic: string) {
-    topic = topic || ''
-    serial.writeLine(`K55 ${topic}`)
-  }
-
-  //% blockId=koi_mqtt_onread block="on Mqtt Data"
-  //% group="Wifi" weight=60 draggableParameters=reporter
-  export function koi_mqtt_onread(
-    handler: (data: string, topic: string) => void
-  ) {
-    mqttDataEvt = handler
-  }
-
-  // //% blockId=koi_gettime block="KOI get time"
-  // //% group="Wifi" weight=50
-  // export function koi_gettime(): Array<String> {
-  //   asyncWrite(`K56`, 56)
-  //   return lastCmd
-  // }
-
-  /**
-   * @param file Wav File to play; eg: say.wav
-   */
-  //% blockId=koi_audio_play block="WAV Play %file"
-  //% group="Audio" weight=90
-  export function koi_audio_play(file: string) {
-    serial.writeLine(`K62 ${file}`)
-  }
-
-  /**
-   * @param file Wav File to record; eg: say.wav
-   */
-  //% blockId=koi_audio_rec block="WAV Rec %file"
-  //% group="Audio" weight=90
-  export function koi_audio_rec(file: string) {
-    serial.writeLine(`K61 ${file}`)
-  }
-
-  /**
-   * @param base Noise Base; eg: 200000
-   */
-  //% blockId=koi_audio_noisetap block="Noise Tap %base"
-  //% group="Audio" weight=89
-  export function koi_audio_noisetap(base: number) {
-    serial.writeLine(`K63 ${base}`)
-  }
-
-  /**
-   * @param classid Speech Cmd add; eg: cmd
-   */
-  //% blockId=koi_speechcmd_addmodel block="Speech Cmd add %classid"
-  //% group="Audio" weight=88
-  export function koi_speechcmd_addmodel(classid: string) {
-    serial.writeLine(`K64 ${classid}`)
-  }
-
-  //% blockId=koi_speechcmd_onrecognize block="on Speech Cmd"
-  //% group="Audio" weight=86 draggableParameters=reporter blockGap=48
-  export function koi_speechcmd_onrecognize(
-    handler: (classId: string) => void
-  ) {
-    speechCmdEvt = handler
-  }
-
-  //% blockId=koi_speechcmd_listen block="Speech Cmd Listen"
-  //% group="Audio" weight=87
-  export function koi_speechcmd_listen(): void {
-    serial.writeLine('K65')
-  }
-
-  //% blockId=koi_cloud_facerecognize block="KOI Cloud Face Recognize"
-  //% group="CloudAI" weight=50
-  export function koi_cloud_facerecognize() {
-    serial.writeLine(`K75`)
-  }
-
-  //% blockId=koi_cloud_onregface block="on Recognize Face"
-  //% group="CloudAI" weight=49 draggableParameters=reporter blockGap=48
-  export function koi_cloud_onregface(
-    handler: (token: string, sex: string, age: number, mask: number, expression: string) => void
-  ) {
-    facetokenEvt = handler
-  }
-
-  //% blockId=koi_cloud_faceaddgroup block="add face token %TOKEN to Group %GROUP with name %NAME"
-  //% group="CloudAI" weight=48
-  export function koi_cloud_faceaddgroup(
-    TOKEN: string,
-    GROUP: string,
-    NAME: string
-  ) {
-    serial.writeLine(`K76 ${TOKEN} ${GROUP} ${NAME}`)
-  }
-
-  //% blockId=koi_cloud_facesearch block="search face token %TOKEN in group %GROUP"
-  //% group="CloudAI" weight=48
-  export function koi_cloud_facesearch(TOKEN: string, GROUP: string) {
-    serial.writeLine(`K77 ${TOKEN} ${GROUP}`)
-  }
-
-  //% blockId=koi_cloud_onfindface block="on Find Face"
-  //% group="CloudAI" weight=46 draggableParameters=reporter blockGap=48
-  export function koi_cloud_onfindface(
-    handler: (name: string, confidence: number) => void
-  ) {
-    facefoundEvt = handler
-  }
-
-  /**
-   * @param TXT text to speech; eg: hello world
-   */
-  //% blockId=koi_cloud_tts block="TTS %TXT"
-  //% group="CloudAI" weight=45
-  export function koi_cloud_tts(TXT: string) {
-    serial.writeLine(`K78 ${TXT}`)
-  }
 }
+
+

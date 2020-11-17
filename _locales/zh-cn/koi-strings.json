@@ -10,7 +10,7 @@
     "koi.koi_classified|block": "分类器返回",
     "koi.koi_screenshot|block": "KOI截屏 %name",
     "koi.koi_display|block": "KOI显示 %name",
-    "koi.koi_print|block": "KOI打印 X %x Y %y %txt||延时 %delay ms",
+    "koi.koi_print|block": "KOI打印 %t X %x Y %y || 延时 %d 毫秒",
     "koi.koi_lcd_direction|block": "LCD方向%dir",
     "koi.koi_track_circle|block": "KOI追踪圆形 阈值%th",
     "koi.koi_oncircletrack|block": "追踪圆形",
@@ -30,6 +30,7 @@
     "koi.koi_onfindface|block": "人脸",
     "koi.koi_join_ap|block": "加入局域网 %ssid %pass",
     "koi.koi_show|block": "显示IP",
+    "koi.koi_gettime|block": "获取网络时间",
     "koi.koi_mqtt_host|block": "Mqtt 主机 %host|节点ID%cid||端口%port 用户%user 密码%pass",
     "koi.koi_mqtt_sub|block": "Mqtt 订阅 %topic",
     "koi.koi_mqtt_pub|block": "Mqtt 广播 %topic %data",
@@ -42,6 +43,8 @@
     "koi.koi_speechcmd_addmodel|block": "添加命令词 %classid",
     "koi.koi_speechcmd_onrecognize|block": "当听到命令词",
     "koi.koi_speechcmd_listen|block": "命令词听取",
+    "koi.koi_speechcmd_save|block": "KOI 保存语音模型 %path",
+    "koi.koi_speechcmd_load|block": "KOI 加载语音模型 %path",
     "koi.koi_apriltag|block": "KOI AprilTag扫描",
     "koi.koi_onapriltag|block": "AprilTag",
     "koi.koi_showip|block": "显示WIFI地址",
@@ -52,5 +55,6 @@
     "koi.koi_cloud_onfindface|block": "搜索到人脸返回",
     "koi.LcdDirection.Back|block":"后置摄像头",
     "koi.LcdDirection.Front|block":"前置摄像头",
-    "koi.LcdDirection.Land|block":"横屏"
+    "koi.LcdDirection.Land|block":"横屏",
+    "koi.koi_cloud_tts|block": "文字转语音 %TXT"
 }

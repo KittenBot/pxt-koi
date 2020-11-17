@@ -10,7 +10,7 @@
     "koi.koi_classified|block": "分類器返回",
     "koi.koi_screenshot|block": "KOI截屏 %name",
     "koi.koi_display|block": "KOI顯示 %name",
-    "koi.koi_print|block": "KOI列出 X %x Y %y %txt||延遲 %delay ms",
+    "koi.koi_print|block": "KOI列出 %t X %x Y %y || 延遲 %d 毫秒",
     "koi.koi_lcd_direction|block": "LCD方向%dir",
     "koi.koi_track_circle|block": "KOI追蹤圓形 臨界值%th",
     "koi.koi_oncircletrack|block": "追蹤圓形",
@@ -30,6 +30,7 @@
     "koi.koi_onfindface|block": "人臉",
     "koi.koi_join_ap|block": "加入區域網 %ssid %pass",
     "koi.koi_show|block": "顯示IP",
+    "koi.koi_gettime|block": "獲取網絡時間",
     "koi.koi_mqtt_host|block": "Mqtt 主機 %host |節點%cid||埠%port 使用者%user 密碼%pass",
     "koi.koi_mqtt_sub|block": "Mqtt 訂閱 %topic",
     "koi.koi_mqtt_pub|block": "Mqtt 廣播 %topic %data",
@@ -48,10 +49,13 @@
     "koi.koi_speechcmd_addmodel|block": "添加命令詞 %classid",
     "koi.koi_speechcmd_onrecognize|block": "當聽到命令詞",
     "koi.koi_speechcmd_listen|block": "命令詞聽取",
+    "koi.koi_speechcmd_save|block": "KOI 保存命令詞分類器 %path",
+    "koi.koi_speechcmd_load|block": "KOI 載入命令詞分類器 %path",
     "koi.koi_cloud_facerecognize|block": "雲AI 人臉識別",
     "koi.koi_cloud_onregface|block": "人臉識別返回",
     "koi.koi_cloud_faceaddgroup|block": "將人臉特徵 %TOKEN 添加到組 %GROUP 名字 %NAME",
     "koi.koi_cloud_facesearch|block": "搜索人臉特徵 %TOKEN 在組 %GROUP",
-    "koi.koi_cloud_onfindface|block": "搜索到人臉返回"
+    "koi.koi_cloud_onfindface|block": "搜索到人臉返回",
+    "koi.koi_cloud_tts|block": "文字轉語音 %TXT"
 }
 
