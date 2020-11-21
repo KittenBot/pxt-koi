@@ -46,7 +46,7 @@
     "koi.LcdDirection.Back|block":"後置攝像頭",
     "koi.LcdDirection.Front|block":"前置攝像頭",
     "koi.LcdDirection.Land|block":"橫屏",
-    "koi.koi_audio_noisetap|block": "環境噪聲基準 %base",
+    "koi.koi_audio_noisetap|block": "校準環境噪聲",
     "koi.koi_speechcmd_addmodel|block": "添加命令詞 %classid",
     "koi.koi_speechcmd_onrecognize|block": "當聽到命令詞",
     "koi.koi_speechcmd_listen|block": "命令詞聽取",

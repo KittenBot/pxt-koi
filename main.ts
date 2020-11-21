@@ -68,8 +68,6 @@ namespace koi {
     Front = 0,
     //% block=Back
     Back = 2,
-    //% block=Land
-    Land = 1,
   }
 
   function trim(n: string): string {
@@ -607,10 +605,10 @@ namespace koi {
   /**
    * @param base Noise Base; eg: 200000
    */
-  //% blockId=koi_audio_noisetap block="Noise Tap %base"
+  //% blockId=koi_audio_noisetap block="Calibrate noise"
   //% group="Audio" weight=38
-  export function koi_audio_noisetap(base: number) {
-    serial.writeLine(`K63 ${base}`)
+  export function koi_audio_noisetap(): void {
+    serial.writeLine(`K63`)
   }
 
   /**
