@@ -44,6 +44,7 @@ namespace koi {
   let barcodeEvt: Evttxt = null
   let apriltagEvt: Evtsxy = null
   let facedetEvt: Evtxy = null
+  let ipEvt: Evttxt = null
   let mqttDataEvt: Evtss = null
 
   let lastCmd: Array<String> = null
@@ -169,6 +170,11 @@ namespace koi {
         // face position
         if (facedetEvt && b[1]) {
           facedetEvt(parseInt(b[1]), parseInt(b[2]))
+        }
+      } else if (cmd == 54) {
+        // ip
+        if (ipEvt) {
+          ipEvt(b[1])
         }
       } else if (cmd == 55) {
         if (mqttDataEvt) {
@@ -495,14 +501,24 @@ namespace koi {
     serial.writeLine(`K50 ${ssid} ${pass}`)
   }
 
-  //% blockId=koi_showip block="Wifi Show IP"
+  //% blockId=koi_getip block="Wifi Get IP"
   //% group="Wifi" weight=49
-  export function koi_showip() {
-    serial.writeLine(`K54`)
+  export function koi_get_ip() {
+    // serial.writeLine(`K54`)
+    let str = `K54`
+    asyncWrite(str, 54)
   }
 
+  //% blockId=koi_ip_onread block="on IP Data"
+  //% group="Wifi" weight=48 draggableParameters=reporter
+  export function koi_ip_onread(
+    handler: (ip: string) => void
+  ) {
+    ipEvt = handler
+  }  
+
   //% blockId=koi_gettime block="KOI get time"
-  //% group="Wifi" weight=48
+  //% group="Wifi" weight=47
   export function koi_gettime(): Array<String> {
     asyncWrite(`K56`, 56)
     return lastCmd
@@ -516,7 +532,7 @@ namespace koi {
    * @param pass Password; eg: pass
    */
   //% blockId=koi_mqtt_host block="Mqtt Host %host| clientID%cid||Port%port User%user Pass%pass"
-  //% group="Wifi" weight=47
+  //% group="Wifi" weight=46
   export function koi_mqtt_host(
     host: string,
     cid: string,
@@ -535,7 +551,7 @@ namespace koi {
    * @param topic Topic to subscribe; eg: /topic
    */
   //% blockId=koi_mqtt_sub block="Mqtt Subscribe %topic"
-  //% group="Wifi" weight=46
+  //% group="Wifi" weight=45
   export function koi_mqtt_sub(topic: string) {
     serial.writeLine(`K52 ${topic}`)
   }
@@ -545,7 +561,7 @@ namespace koi {
    * @param data Data to publish; eg: hello
    */
   //% blockId=koi_mqtt_pub block="Mqtt Publish %topic %data"
-  //% group="Wifi" weight=45
+  //% group="Wifi" weight=44
   export function koi_mqtt_pub(topic: string, data: string) {
     serial.writeLine(`K53 ${topic} ${data}`)
   }
@@ -554,14 +570,14 @@ namespace koi {
    * @param topic Mqtt Read; eg: /topic
    */
   //% blockId=koi_mqtt_read block="Mqtt Read %topic"
-  //% group="Wifi" weight=44
+  //% group="Wifi" weight=43
   export function koi_mqtt_read(topic: string) {
     topic = topic || ''
     serial.writeLine(`K55 ${topic}`)
   }
 
   //% blockId=koi_mqtt_onread block="on Mqtt Data"
-  //% group="Wifi" weight=43 draggableParameters=reporter
+  //% group="Wifi" weight=42 draggableParameters=reporter
   export function koi_mqtt_onread(
     handler: (data: string, topic: string) => void
   ) {
@@ -685,7 +701,8 @@ namespace koi {
   //% blockId=koi_cloud_tts block="TTS %TXT"
   //% group="CloudAI" weight=25
   export function koi_cloud_tts(TXT: string) {
-    serial.writeLine(`K78 ${TXT}`)
+    let str = TXT.split(' ').join('.')
+    serial.writeLine(`K78 ${str}`)
   }
 
 
@@ -696,30 +713,30 @@ namespace koi {
     serial.writeLine(`K99`)
   }
 
-  /**
-   * @param txt string to display; eg: 你好世界
-   */
-  //% blockId=koi_print_unicode block="Print UNICODE X %x Y %y %txt||delay %delay ms"
-  //% x.min=0 x.max=240
-  //% y.min=0 y.max=240
-  //% group="Basic" weight=100
-  //% advanced=true
-  export function koi_print_unicode(
-    x: number,
-    y: number,
-    txt: string,
-    delay: number = 1000
-  ): void {
-    let s: string = '${';
-    for (let i=0;i<txt.length;i++){
-      s += txt.charCodeAt(i)
-      if (i != (txt.length-1)) s += ','
-    }
-    s += '}'
+  // /**
+  //  * @param txt string to display; eg: 你好世界
+  //  */
+  // //% blockId=koi_print_unicode block="Print UNICODE X %x Y %y %txt||delay %delay ms"
+  // //% x.min=0 x.max=240
+  // //% y.min=0 y.max=240
+  // //% group="Basic" weight=100
+  // //% advanced=true
+  // export function koi_print_unicode(
+  //   x: number,
+  //   y: number,
+  //   txt: string,
+  //   delay: number = 1000
+  // ): void {
+  //   let s: string = '${';
+  //   for (let i=0;i<txt.length;i++){
+  //     s += txt.charCodeAt(i)
+  //     if (i != (txt.length-1)) s += ','
+  //   }
+  //   s += '}'
     
-    let str = `K5 ${x} ${y} ${delay} ${s}`
-    serial.writeLine(str)
-  }
+  //   let str = `K5 ${x} ${y} ${delay} ${s}`
+  //   serial.writeLine(str)
+  // }
  
 
   /**
