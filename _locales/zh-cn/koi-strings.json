@@ -27,6 +27,7 @@
     "koi.koi_onbarcode|block": "条形码",
     "koi.koi_loadyoloface|block": "KOI加载人脸模型",
     "koi.koi_facedetect|block": "KOI人脸追踪",
+    "koi.koi_facecount|block": "人脸数量",
     "koi.koi_onfindface|block": "人脸",
     "koi.koi_join_ap|block": "加入局域网 %ssid %pass",
     "koi.koi_get_ip|block": "获取IP",

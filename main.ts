@@ -48,6 +48,8 @@ namespace koi {
   let mqttDataEvt: Evtss = null
 
   let lastCmd: Array<String> = null
+  let faceNum: Number = null
+
 
   const PortSerial = [
     [SerialPin.P0, SerialPin.P8],
@@ -169,6 +171,9 @@ namespace koi {
         if (facedetEvt && b[1]) {
           facedetEvt(parseInt(b[1]), parseInt(b[2]))
         }
+      } else if (cmd == 32) {
+        // face number
+        faceNum = parseInt(b[1])
       } else if (cmd == 54) {
         // ip
         if (ipEvt) {
@@ -219,11 +224,8 @@ namespace koi {
     serial.readString()
     serial.writeString('\n\n')
     // take control of the ext serial port from KOI
+    asyncWrite(`K0`, 0)
     basic.pause(300)
-    serial.writeLine('K0')
-    basic.pause(300)
-    serial.writeLine('K0')
-    basic.pause(100)
   }
 
   //% blockId=koi_init_pw block="KOI init powerbrick|Port %port"
@@ -483,12 +485,20 @@ namespace koi {
     asyncWrite(str, 31)
   }
 
+  //% blockId=koi_gettime block="KOI face number"
+  //% group="Face" weight=57 blockGap=40
+  export function koi_facecount(): Number {
+    let str = `K32`
+    asyncWrite(`K32`, 32)
+    return faceNum
+  }
+
   //% blockId=koi_onfindface block="on Find Face"
   //% group="Face" weight=58 draggableParameters=reporter blockGap=40
   export function koi_onfindface(handler: (x: number, y: number) => void) {
     facedetEvt = handler
   }
-
+  
   /**
    * @param ssid SSID; eg: ssid
    * @param pass PASSWORD; eg: password
