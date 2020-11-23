@@ -11,7 +11,7 @@
     "koi.koi_classified|block": "分類器返回",
     "koi.koi_screenshot|block": "截屏 %name",
     "koi.koi_display|block": "顯示 %name",
-    "koi.koi_print|block": "列出 %t X %x Y %y || 延遲 %d 毫秒",
+    "koi.koi_print|block": "列出 %t X %x Y %y||延遲 %d 毫秒",
     "koi.koi_lcd_direction|block": "LCD方向%dir",
     "koi.koi_track_circle|block": "追蹤圓形 臨界值%th",
     "koi.koi_oncircletrack|block": "追蹤圓形",

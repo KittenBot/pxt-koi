@@ -246,7 +246,7 @@ namespace koi {
    * @param t string to display; eg: hello
    * @param d delay; eg: 1000
    */
-  //% blockId=koi_print block="KOI print %t || X %x Y %y delay %d ms"
+  //% blockId=koi_print block="KOI print %t X %x Y %y||delay %d ms"
   //% x.min=0 x.max=240
   //% y.min=0 y.max=240
   //% group="Basic" weight=97
