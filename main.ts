@@ -48,7 +48,7 @@ namespace koi {
   let mqttDataEvt: Evtss = null
 
   let lastCmd: Array<String> = null
-  let faceNum: Number = null
+  let faceNum = 0
 
 
   const PortSerial = [
@@ -161,9 +161,9 @@ namespace koi {
             parseInt(b[3]),
             parseInt(b[4]),
             parseInt(b[5]),
-            parseInt(b[6]),
-            parseInt(b[7]),
-            parseInt(b[8])
+            Math.roundWithPrecision(parseFloat(b[6]), 2),
+            Math.roundWithPrecision(parseFloat(b[7]), 2),
+            Math.roundWithPrecision(parseFloat(b[8]), 2)
           )
         }
       } else if (cmd == 31) {
@@ -246,7 +246,7 @@ namespace koi {
    * @param t string to display; eg: hello
    * @param d delay; eg: 1000
    */
-  //% blockId=koi_print block="KOI print %t X %x Y %y || delay %d ms"
+  //% blockId=koi_print block="KOI print %t || X %x Y %y delay %d ms"
   //% x.min=0 x.max=240
   //% y.min=0 y.max=240
   //% group="Basic" weight=97
@@ -262,6 +262,7 @@ namespace koi {
     handler: (btnA: number, btnB: number) => void
   ): void {
     btnEvt = handler
+    basic.pause(100)
   }
 
   /**
@@ -283,8 +284,6 @@ namespace koi {
     let str = `K1 ${name}`
     serial.writeLine(str)
   }
- 
-
 
   //% blockId=koi_reset_cls block="KOI Reset Classifier"
   //% group="Classifier" weight=90
@@ -461,9 +460,9 @@ namespace koi {
       y: number,
       w: number,
       h: number,
-      rX: number,
-      rY: number,
-      rZ: number
+      tX: number,
+      tY: number,
+      tZ: number
     ) => void
   ) {
     apriltagEvt = handler
@@ -485,9 +484,9 @@ namespace koi {
     asyncWrite(str, 31)
   }
 
-  //% blockId=koi_gettime block="KOI face number"
+  //% blockId=koi_facecount block="KOI face number"
   //% group="Face" weight=57 blockGap=40
-  export function koi_facecount(): Number {
+  export function koi_facecount(): number {
     let str = `K32`
     asyncWrite(`K32`, 32)
     return faceNum
@@ -715,10 +714,18 @@ namespace koi {
 
 
   //% blockId=koi_reset block="KOI reset"
-  //% group="Basic" weight=1
+  //% group="Basic" weight=10
   //% advanced=true
   export function koi_reset(): void {
     serial.writeLine(`K99`)
+  }
+
+  //% blockId=koi_stop_kpu block="KOI Stop kpu"
+  //% group="Basic" weight=9 blockGap=40
+  //% advanced=true
+  export function koi_stop_kpu(): void {
+    let str = `K98`
+    serial.writeLine(str)
   }
 
   // /**
@@ -771,7 +778,6 @@ namespace koi {
   export function koi_on_inference(handler: (index: number) => void) {
     kmodelEvt = handler
   }
-
 
 }
 
