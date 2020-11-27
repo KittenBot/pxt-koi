@@ -47,7 +47,7 @@ namespace koi {
   let ipEvt: Evttxt = null
   let mqttDataEvt: Evtss = null
 
-  let lastCmd: Array<String> = null
+  let lastCmd: Array<string> = null
   let faceNum = 0
 
 
@@ -526,7 +526,7 @@ namespace koi {
 
   //% blockId=koi_gettime block="KOI get time"
   //% group="Wifi" weight=47
-  export function koi_gettime(): Array<String> {
+  export function koi_gettime(): Array<string> {
     asyncWrite(`K56`, 56)
     return lastCmd
   }
