@@ -59,6 +59,9 @@
     "koi.koi_cloud_faceaddgroup|block": "將人臉特徵 %TOKEN 添加到組 %GROUP 名字 %NAME",
     "koi.koi_cloud_facesearch|block": "搜索人臉特徵 %TOKEN 在組 %GROUP",
     "koi.koi_cloud_onfindface|block": "搜索到人臉返回",
-    "koi.koi_cloud_tts|block": "文字轉語音 %TXT"
+    "koi.koi_cloud_tts|block": "文字轉語音 %TXT",
+    "koi.koi_loadkmodel|block": "加載KNN模型 %path",
+    "koi.koi_inference|block": "運行 KNN推斷",
+    "koi.koi_on_inference|block": "KNN推斷 返回"
 }
 

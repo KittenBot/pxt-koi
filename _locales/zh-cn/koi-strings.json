@@ -59,5 +59,8 @@
     "koi.LcdDirection.Back|block":"后置摄像头",
     "koi.LcdDirection.Front|block":"前置摄像头",
     "koi.LcdDirection.Land|block":"横屏",
-    "koi.koi_cloud_tts|block": "文字转语音 %TXT"
+    "koi.koi_cloud_tts|block": "文字转语音 %TXT",
+    "koi.koi_loadkmodel|block": "加载KNN模型 %path",
+    "koi.koi_inference|block": "运行 KNN推断",
+    "koi.koi_on_inference|block": "KNN推断 返回"
 }
