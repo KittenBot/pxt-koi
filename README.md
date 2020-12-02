@@ -3,10 +3,13 @@
 extension for AI module form kittenbot
 
 ![1569642410253](logo.png)
+![koi](https://s3.ax1x.com/2020/12/02/D5a42R.png)
+
+## usage:
+ https://www.yuque.com/kittenbot/hardwares/koi
 
 ## Feature
-
-
+AI+IoT
 
 ----------
 
