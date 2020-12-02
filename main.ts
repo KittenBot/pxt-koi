@@ -262,7 +262,6 @@ namespace koi {
     handler: (btnA: number, btnB: number) => void
   ): void {
     btnEvt = handler
-    basic.pause(100)
   }
 
   /**
@@ -306,8 +305,8 @@ namespace koi {
   //% group="Classifier" weight=88
   export function koi_run(): void {
     let str = `K42`
-    // serial.writeLine(str)
-    asyncWrite(str, 42)
+    serial.writeLine(str)
+    // asyncWrite(str, 42)
   }
 
   //% blockId=koi_classified block="on Identified"
@@ -344,8 +343,8 @@ namespace koi {
   //% group="Graphic" weight=80
   export function koi_track_circle(th: number): void {
     let str = `K10 ${th}`
-    // serial.writeLine(str)
-    asyncWrite(str, 10)
+    serial.writeLine(str)
+
   }
 
   //% blockId=koi_oncircletrack block="on Find Circle"
@@ -363,8 +362,7 @@ namespace koi {
   //% group="Graphic" weight=78
   export function koi_track_rect(th: number): void {
     let str = `K11 ${th}`
-    // serial.writeLine(str)
-    asyncWrite(str, 11)
+    serial.writeLine(str)
   }
 
   //% blockId=koi_onrecttrack block="on Find Rectangle"
@@ -392,8 +390,7 @@ namespace koi {
   //% group="Graphic" weight=75
   export function koi_track_line(key: string): void {
     let str = `K12 ${key}`
-    // serial.writeLine(str)
-    asyncWrite(str, 12)
+    serial.writeLine(str)
   }
 
   //% blockId=koi_onlinetrack block="on Line Update"
@@ -411,8 +408,7 @@ namespace koi {
   //% group="Graphic" weight=73
   export function koi_track_colorblob(key: string): void {
     let str = `K15 ${key}`
-    // serial.writeLine(str)
-    asyncWrite(str, 15)
+    serial.writeLine(str)
   }
 
   //% blockId=koi_oncolorblob block="on Color blob"
@@ -427,8 +423,7 @@ namespace koi {
   //% group="Tag/Code" weight=70
   export function koi_qrcode() {
     let str = `K20`
-    // serial.writeLine(str)
-    asyncWrite(str, 20)
+    serial.writeLine(str)
   }
 
   //% blockId=koi_onqrcode block="on QR code"
@@ -441,8 +436,7 @@ namespace koi {
   //% group="Tag/Code" weight=68
   export function koi_barcode() {
     let str = `K22`
-    // serial.writeLine(str)
-    asyncWrite(str, 22)
+    serial.writeLine(str)
   }
 
   //% blockId=koi_onbarcode block="on Barcode code"
@@ -455,8 +449,7 @@ namespace koi {
   //% group="Tag/Code" weight=66
   export function koi_apriltag() {
     let str = `K23`
-    // serial.writeLine(str)
-    asyncWrite(str, 23)
+    serial.writeLine(str)
   }
 
   //% blockId=koi_onapriltag block="on AprilTag"
@@ -589,8 +582,8 @@ namespace koi {
   export function koi_mqtt_read(topic: string) {
     topic = topic || ''
     let str = `K55 ${topic}`
-    // serial.writeLine(str)
-    asyncWrite(str, 55)
+    serial.writeLine(str)
+    // asyncWrite(str, 55)
     
   }
 
@@ -640,8 +633,8 @@ namespace koi {
   //% group="Audio" weight=36
   export function koi_speechcmd_listen(): void {
     let str = `K65`
-    // serial.writeLine('K65')
-    asyncWrite(str, 65)
+    serial.writeLine('K65')
+    // asyncWrite(str, 65)
   }
 
   //% blockId=koi_speechcmd_onrecognize block="on Speech Cmd"
@@ -676,8 +669,8 @@ namespace koi {
   //% group="CloudAI" weight=30
   export function koi_cloud_facerecognize() {
     let str = `K75`
-    // serial.writeLine(`K75`)
-    asyncWrite(str, 75)
+    serial.writeLine(`K75`)
+    // asyncWrite(str, 75)
   }
 
   //% blockId=koi_cloud_onregface block="on Recognize Face"
@@ -702,8 +695,8 @@ namespace koi {
   //% group="CloudAI" weight=27
   export function koi_cloud_facesearch(TOKEN: string, GROUP: string) {
     let str =`K77 ${TOKEN} ${GROUP}`
-    // serial.writeLine(str)
-    asyncWrite(str, 77)
+    serial.writeLine(str)
+    // asyncWrite(str, 77)
   }
 
   //% blockId=koi_cloud_onfindface block="on Find Face"
@@ -782,8 +775,8 @@ namespace koi {
   //% advanced=true
   export function koi_inference() {
     let str = `K46`
-    // serial.writeLine(`K46`)
-    asyncWrite(str, 46)
+    serial.writeLine(`K46`)
+    // asyncWrite(str, 46)
   }
 
   //% blockId=koi_on_inference block="on Inference"
