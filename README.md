@@ -1,4 +1,4 @@
-# KOI AI Moudule
+# KOI AI Module
 
 ![koi](koi.png)
 ![koi-usage](koi-usage1.png)
