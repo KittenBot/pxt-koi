@@ -4,7 +4,8 @@
     "description": "Extension for KOI AI module",
     "license": "MIT",
     "dependencies": {
-        "core": "*"
+        "core": "*",
+        "microphone": "*"
     },
     "files": [
         "README.md",
@@ -13,5 +14,12 @@
         "_locales/zh-tw/koi-strings.json"
     ],
     "public": true,
+    "targetVersions": {
+        "target": "6.0.18",
+        "targetId": "microbit"
+    },
+    "supportedTargets": [
+        "microbit"
+    ],
     "preferredEditor": "tsprj"
 }
