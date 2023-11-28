@@ -103,8 +103,6 @@ namespace koi {
         MaskMainX = 3,
         //% block=MaskMainY
         MaskMainY = 4,
-        //% block=MaskMainState
-        MaskMainState = 7,
     }
     export enum FaceAttrNumMenu {
         //% block=AttrNumCount
@@ -616,7 +614,7 @@ namespace koi {
     }
 
     //% blockId=koi_maskGetState block="face mask get %type"
-    //% group="Face" weight=60
+    //% group="Face_mask" weight=60
     export function koi_maskGetState(type: FaceMaskGetMenu): number {
         let maskValue = 0;
         switch (type) {
@@ -644,10 +642,17 @@ namespace koi {
                 return 0;
         }
         return maskValue
-    }   
+    }
+    //% blockId=koi_maskGetMainStatus block="face get main mask wearing status"
+    //% group="Face_mask" weight=60
+    export function koi_maskGetMainStatus(): boolean {
+        let status = ! ! faceMaskMainState
+        faceMaskMainState = 0
+        return status
+    }
 
     //% blockId=koi_attrGetNum block="face attr get num %type"
-    //% group="Face" weight=61
+    //% group="Face_attr" weight=61
     export function koi_attrGetNum(type: FaceAttrNumMenu): number {
         let attrValue = 0
         switch (type) {
@@ -680,7 +685,7 @@ namespace koi {
     }
 
     //% blockId=koi_attrGetMainXY block="face attr get main xy %type"
-    //% group="Face" weight=61
+    //% group="Face_attr" weight=61
     export function koi_attrGetMainXY(type: FaceAttrMainXY): number {
         let attrValue = 0
         switch (type) {
@@ -697,7 +702,7 @@ namespace koi {
     }
 
     //% blockId=koi_attrGetMain block="face get main attr %type"
-    //% group="Face" weight=61
+    //% group="Face_attr" weight=61
     export function koi_attrGetMain(type: FaceAttrMain): boolean {
         let attrValue = false
         switch (type) {
@@ -747,6 +752,7 @@ namespace koi {
     //% group="Wifi" weight=50
     export function koi_join_ap(ssid: string, pass: string) {
         serial.writeLine(`K50 ${ssid} ${pass}`)
+        basic.pause(13000)
     }
 
     //% blockId=koi_getip block="Wifi Get IP"
@@ -793,6 +799,7 @@ namespace koi {
         } else {
             serial.writeLine(`K51 ${host} ${cid} ${port}`)
         }
+        basic.pause(2000)
     }
 
     /**
@@ -802,6 +809,7 @@ namespace koi {
     //% group="Wifi" weight=45
     export function koi_mqtt_sub(topic: string) {
         serial.writeLine(`K52 ${topic}`)
+        basic.pause(500)
     }
 
     /**
@@ -823,6 +831,7 @@ namespace koi {
         topic = topic || ''
         let str = `K55 ${topic}`
         serial.writeLine(str)
+        basic.pause(200)
         // asyncWrite(str, 55)
 
     }

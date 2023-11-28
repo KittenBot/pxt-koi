@@ -31,6 +31,7 @@
     "koi.koi_facecount|block": "人脸数量",
     "koi.koi_onfindface|block": "人脸",
     "koi.koi_maskGetState|block": "获取口罩佩戴情况 %type",
+    "koi.koi_maskGetMainStatus|block":"主要人脸是否佩戴口罩",
     "koi.koi_attrGetNum|block": "人脸属性数量相关 %type",
     "koi.koi_attrGetMainXY|block": "人脸属性主要人物坐标 %type",
     "koi.koi_attrGetMain|block": "主要人物属性 %type",
