@@ -135,7 +135,7 @@ namespace koi {
         //% block=AttrMainGlasses
         AttrMainGlasses = 12,
     }
-    
+
     export enum HandGetMenu {
         //% block=X
         HandX = 1,
@@ -246,7 +246,7 @@ namespace koi {
                 // face number
                 faceNum = parseInt(b[1])
             } else if (cmd == 33) {
-                try{
+                try {
 
                     let data = a.slice(1, a.length).replaceAll(",", "").replaceAll("[", "").replaceAll("]", "").split(' ')
                     faceYmask = parseInt(data[1])
@@ -254,11 +254,11 @@ namespace koi {
                     faceMaskMainX = parseInt(data[3])
                     faceMaskMainY = parseInt(data[4])
                     faceMaskMainState = parseInt(data[7])
-                }catch{
-                    
+                } catch {
+
                 }
             } else if (cmd == 34) {
-                try{
+                try {
                     let data = a.slice(1, a.length).replaceAll(",", "").replaceAll("[", "").replaceAll("]", "").split(' ')
                     faceAttrNumCount = parseInt(data[1])
                     faceAttrNumMen = parseInt(data[2])
@@ -272,8 +272,8 @@ namespace koi {
                     faceAttrMainOM = !!parseInt(data[9])
                     faceAttrMainSmile = !!parseInt(data[10])
                     faceAttrMainGlasses = !!parseInt(data[11])
-                }catch{
-                    
+                } catch {
+
                 }
             } else if (cmd == 54) {
                 // ip
@@ -287,9 +287,9 @@ namespace koi {
             } else if (cmd == 65) {
                 if (speechCmdEvt) {
                     let asrResult = ""
-                    for(let i = 1;i < b.length; i++){
-                        asrResult+=b[i]
-                        asrResult+="-"
+                    for (let i = 1; i < b.length; i++) {
+                        asrResult += b[i]
+                        asrResult += "-"
                     }
                     speechCmdEvt(asrResult.slice(0, -2))
                 }
@@ -646,7 +646,7 @@ namespace koi {
     //% blockId=koi_maskGetMainStatus block="face get main mask wearing status"
     //% group="Face_mask" weight=60
     export function koi_maskGetMainStatus(): boolean {
-        let status = ! ! faceMaskMainState
+        let status = ! !faceMaskMainState
         faceMaskMainState = 0
         return status
     }
