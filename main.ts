@@ -594,9 +594,9 @@ namespace koi {
     //% group="Face" weight=59
     export function koi_facedetect() {
         let str = `K31`
-        // serial.writeLine(str)
-        // basic.pause(200)
-        asyncWrite(str, 31)
+        serial.writeLine(str)
+        basic.pause(200)
+        //asyncWrite(str, 31)
     }
 
     //% blockId=koi_facecount block="KOI face number"
@@ -614,7 +614,7 @@ namespace koi {
     }
 
     //% blockId=koi_maskGetState block="face mask get %type"
-    //% group="Face_mask" weight=60
+    //% group="Face_mask(V3.1)" weight=60
     export function koi_maskGetState(type: FaceMaskGetMenu): number {
         let maskValue = 0;
         switch (type) {
@@ -644,7 +644,7 @@ namespace koi {
         return maskValue
     }
     //% blockId=koi_maskGetMainStatus block="face get main mask wearing status"
-    //% group="Face_mask" weight=60
+    //% group="Face_mask(V3.1)" weight=60
     export function koi_maskGetMainStatus(): boolean {
         let status = ! !faceMaskMainState
         faceMaskMainState = 0
@@ -652,7 +652,7 @@ namespace koi {
     }
 
     //% blockId=koi_attrGetNum block="face attr get num %type"
-    //% group="Face_attr" weight=61
+    //% group="Face_attr(V3.1)" weight=61
     export function koi_attrGetNum(type: FaceAttrNumMenu): number {
         let attrValue = 0
         switch (type) {
@@ -685,7 +685,7 @@ namespace koi {
     }
 
     //% blockId=koi_attrGetMainXY block="face attr get main xy %type"
-    //% group="Face_attr" weight=61
+    //% group="Face_attr(V3.1)" weight=61
     export function koi_attrGetMainXY(type: FaceAttrMainXY): number {
         let attrValue = 0
         switch (type) {
@@ -702,7 +702,7 @@ namespace koi {
     }
 
     //% blockId=koi_attrGetMain block="face get main attr %type"
-    //% group="Face_attr" weight=61
+    //% group="Face_attr(V3.1)" weight=61
     export function koi_attrGetMain(type: FaceAttrMain): boolean {
         let attrValue = false
         switch (type) {
@@ -728,7 +728,7 @@ namespace koi {
 
 
     //% blockId=koi_handGetState block="hand detect %type"
-    //% group="Hand" weight=60
+    //% group="Hand(V3.1)" weight=60
     export function koi_handGetState(type: HandGetMenu): number {
         let handValue = 0
         switch (type) {
