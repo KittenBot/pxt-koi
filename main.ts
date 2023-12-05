@@ -69,6 +69,8 @@ namespace koi {
     let faceAttrMainSmile = false
     let faceAttrMainGlasses = false
 
+    let faceRecognizeName = ""
+
     let handX = 0
     let handY = 0
 
@@ -272,6 +274,13 @@ namespace koi {
                     faceAttrMainOM = !!parseInt(data[9])
                     faceAttrMainSmile = !!parseInt(data[10])
                     faceAttrMainGlasses = !!parseInt(data[11])
+                } catch {
+
+                }
+            } else if (cmd == 38) {
+                try {
+                    let data = a.split(' ')
+                    faceRecognizeName = data[1]
                 } catch {
 
                 }
@@ -724,6 +733,22 @@ namespace koi {
                 break;
         }
         return attrValue
+    }
+
+    /**
+     * @param name name; eg: kitten
+     */
+    //% blockId=koi_faceRecognizeSet block="set face name for %name"
+    //% group="Face_recognize(V3.1)" weight=60
+    export function koi_faceRecognizeSet(name: string) {
+        serial.writeLine(`K37 ${name}\r\n`)
+    }
+
+
+    //% blockId=koi_faceRecognizeGet block="get face name"
+    //% group="Face_recognize(V3.1)" weight=60
+    export function koi_faceRecognizeGet(): string {
+        return faceRecognizeName
     }
 
 

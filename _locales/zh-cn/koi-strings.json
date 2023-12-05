@@ -82,6 +82,8 @@
     "koi.FaceAttrMain.AttrMainOM|block": "主要人脸张嘴？",
     "koi.FaceAttrMain.AttrMainSmile|block": "主要人脸微笑？",
     "koi.FaceAttrMain.AttrMainGlasses|block": "主要人脸戴眼镜？",
+    "koi.koi_faceRecognizeSet|block": "设置人脸名称 %name",
+    "koi.koi_faceRecognizeGet|block": "获取人脸名称",
     "koi.koi_handGetState|block":"检测人手坐标 %type",
     "koi.koi_cloud_tts|block": "文字转语音 %TXT",
     "koi.koi_loadkmodel|block": "加载KNN模型 %path",
